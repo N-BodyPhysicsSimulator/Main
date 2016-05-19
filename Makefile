@@ -1,11 +1,12 @@
+PY=python3
+files=src/**/*.py
+
 pylint-src:
-	python3 -m pylint src/**/*.py
+	$(PY) -m pylint $(files)
 
-pylint-tests:
-	python3 -m pylint src/**/*.py
-
-pylint: pylint-src pylint-tests
+pylint: pylint-src
 
 test: pylint-tests
+	$(PY) -m doctest $(files)
 
 build: pylint test
