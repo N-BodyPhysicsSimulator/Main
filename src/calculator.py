@@ -2,13 +2,21 @@ import pickle
 import base64
 import argparse
 
-class Calculator:
+class Calculator(object):
+    """Calculator class, calculates new properties of podies after tick."""
     def __init__(self, bodies, tick):
-        self.bodies = bodies
-        self.tick = tick
+        self._bodies = bodies
+        self._tick = tick
 
     def calculate(self):
-        return bodies
+        """Return new bodies after tick.
+        Not working yet.
+        """
+        return self._bodies
+
+    def getBodies(self):
+        """Return all bodies"""
+        return self._bodies
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
