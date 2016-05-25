@@ -16,10 +16,12 @@
 Not implemented yet.
 
 ## Goals
+
 ### General
 - [ ] 100% code coverage
 - [ ] Reading data from a .CSV-file
 - [ ] Writing data to a .CSV-file
+
 ### Simulator
 - [ ] Optimizing code for CPU (use of async-code, multiple threads?)
 - [ ] Optimizing code for GPU. GPU's are really good in doing many simple functions. (We could use ArrayFire, OpenCL or CUDA)
@@ -27,6 +29,7 @@ Not implemented yet.
 - [ ] Changing the change in time (Δt) based on the distance of bodies to eachother
 - [ ] Collision detection
 - [ ] Space ship: a body with the possibility to change speed depending on commands
+
 ### Visualisator
 - [ ] Showing the data of the simulator on xy-, yz- and xz-diagrams
 - [ ] Changeable virtual time
