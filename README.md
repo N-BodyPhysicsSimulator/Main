@@ -31,6 +31,7 @@ Not implemented yet.
 - [ ] Space ship: a body with the possibility to change speed depending on commands
 
 ### Visualisator
-- [ ] Showing the data of the simulator on xy-, yz- and xz-diagrams
+- [ ] Showing the data of the simulator on xy-, yz- and xz-diagrams (2D)
 - [ ] Changeable virtual time
 - [ ] Determining the middle of the display
+- [ ] Showing the data of the simulator in three dimensions (xyz, 3D)
