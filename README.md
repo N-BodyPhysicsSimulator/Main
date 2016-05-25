@@ -3,12 +3,13 @@
 ## How to contribute
 
 1. Fork the project.
-2. Write tests (TDD if possible) and write code, commit and push it to your forked repository.
-3. Do a pull request.
-4. You will receive a code review soon.
-5. If quality of code is high enough and test coverage is 100%, code will be merged. Otherwise: *go to step 6*.
-6. After we wrote a code review, you could improve your code according to our suggestions. Please, improve your code.
-7. *Go to step 3*.
+2. Write tests (TDD if possible [[1 NL]](https://nl.wikipedia.org/wiki/Test-driven_development) [[1 EN]](https://en.wikipedia.org/wiki/Test-driven_development)) and write code.
+3. Commit [[1]](http://chris.beams.io/posts/git-commit/) [[2]](https://github.com/erlang/otp/wiki/writing-good-commit-messages) [[3]](https://robots.thoughtbot.com/5-useful-tips-for-a-better-commit-message) (**READ THOSE THREE LINKS**, *please*) and push it to your forked repository. 
+4. Do a pull request. [[1]](https://yangsu.github.io/pull-request-tutorial/) [[2]](https://help.github.com/articles/using-pull-requests/) [[3]](https://help.github.com/articles/creating-a-pull-request/)
+5. You will receive a code review soon.
+6. If quality of code is high enough and Code Coverage is 100% [[1]](https://en.wikipedia.org/wiki/Code_coverage)  [[2]](http://stackoverflow.com/questions/195008/what-is-code-coverage-and-how-do-you-measure-it), code will be merged. Otherwise: *go to step 7*.
+7. After we wrote a code review, you could improve your code according to our suggestions. Please, improve your code.
+8. *Go to step 4*.
 
 ## How to run
 ### Linux
@@ -16,7 +17,7 @@ Not implemented yet.
 
 ## Goals
 ### General
-- [ ] 100% test coverage
+- [ ] 100% code coverage
 - [ ] Reading data from a .CSV-file
 - [ ] Writing data to a .CSV-file
 ### Simulator
