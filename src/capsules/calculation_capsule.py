@@ -7,14 +7,14 @@ class CalculationCapsule(object):
         self.change_in_time = change_in_time # Delta Time
         self.time = 0
 
-    def minimal_distance(self):
-        """Return the smalest distance between any of the bodies."""
-        smallest_distance = None
+    def minimal_distance(self) -> float:
+        """Return the smallest distance between all bodies."""
+        smallest_distance = 0
 
         for body in self.bodies:
             for other_body in self.bodies:
-                if body ==   other_body: continue
-                distance = body.absolute_distance_to(body.distance_in_directions_to(other_body))
+                if body == other_body: continue
+                distance = numpy.linalg.norm(body.distance_to(other_body))
                 
                 if smallest_distance == None or smallest_distance > distance:
                     smallest_distance = distance

@@ -1,86 +1,72 @@
+import numpy
+
 class Body(): pass # Will make Type Hinting work.
 
 class Body(object):
-    def __init__(self, name, mass, radius, positionX, positionY, positionZ, velocityX, velocityY, velocityZ):
-        self.name = name
-        self.mass = mass
-        self.r = radius
-        self.position = {"x": positionX, "y": positionY, "z": positionZ}
-        self.velocity = {"x": velocityX, "y": velocityY, "z": velocityZ}
-        
-    def distance_in_directions_to(self, other: Body) -> dict:
+    def __init__(self, name: str, mass: float, radius: float, position: tuple, velocity: tuple):
+        self.name, self.mass, self.radius = name, mass, radius
+
+        # Vector
+        self.position = numpy.array([[position[0]],
+                                     [position[1]],
+                                     [position[2]]])
+
+        # Vector
+        self.velocity = numpy.array([[velocity[0]],
+                                     [velocity[1]],
+                                     [velocity[2]]])
+
+    def distance_to(self, other: Body) -> numpy.ndarray:
         """Takes two instances of a bodies and calculates the distance.
-        >>> earth = Body("Earth", 5.972*(10**24), 100, 1.496*(10**11), 0, 0, 0, 29290, 0)
-        >>> moon = Body("Moon", 0.0735*(10**24), 100, 1.496*(10**11), 384.4*(10**6), 0, 1050, 29290, 0)
-        >>> moon.distance_in_directions_to(earth) == {'x': 0.0,  'y': -384400000.0, 'z': 0}
-        True
+
+        Returns a Vector. Use numpy.linalg.norm(<Vector>) to get real distance in a float.
+
+        >>> earth = Body("Earth", 5.972*(10**24), 100, (1.496*(10**11), 0, 0), (0, 29290, 0))
+        >>> moon = Body("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), 0), (1050, 29290, 0))
+        >>> moon.distance_to(earth)
+        array([[  0.00000000e+00],
+               [ -3.84400000e+08],
+               [  0.00000000e+00]])
         """
         if self == other:
-            return {"x": 0, "y": 0, "z": 0}
+            return numpy.array([[0],
+                                [0],
+                                [0]])
 
-        distance = {}
-
-        for direction in ['x', 'y', 'z']:
-            distance[direction] = other.position[direction] - self.position[direction]
-
-        return distance
+        return other.position - self.position
         
-    def absolute_distance_to(self, distances_in_directions: dict) -> float:
-        """Takes ditance in directions and converts it to absolute distance via pythogoras
-        >>> earth = Body("Earth", 5.972*(10**24), 100, 1.496*(10**11), 0, 0, 0, 29290, 0, 5)
-        >>> moon = Body("Moon", 0.0735*(10**24), 100, 1.496*(10**11), 384.4*(10**6), 0, 1050, 29290, 0, 5)
-        >>> dis = moon.distance_in_directions_to(earth)
-        >>> moon.absolute_distance_to(dis)
-        384400000.0
-        >>> moon.absolute_distance_to(dis) == earth.absolute_distance_to(dis)
-        True
-        """
-        return ((distances_in_directions['x'] ** 2) + (distances_in_directions['y'] ** 2) + (distances_in_directions['z'] ** 2)) ** (1/2)
-        
-    def acceleration_to_one(self, other: Body) -> dict:
+    def acceleration_to_one(self, other: Body) -> numpy.ndarray:
         """Return acceleration in x, y, z directions.
-        >>> earth = Body("Earth", 5.972*(10**24), 100, 0, 0, 0, 0, 29290, 0, 5)
-        >>> moon = Body("Moon", 1, 100, 0, 6371000, 0, 1050, 29290, 0)
+        >>> earth = Body("Earth", 5.972*(10**24), 100, (0, 0, 0), (0, 29290, 0))
+        >>> moon = Body("Moon", 1, 100, (0, 6371000, 0), (1050, 29290, 0))
         >>> moon.acceleration_to_one(earth)
-        {'z': 0.0, 'y': -9.819649737724951, 'x': 0.0}
+        array([[ 0.        ],
+               [ 9.81964974],
+               [ 0.        ]])
         """
         if self == other:
-            return {"x": 0, "y": 0, "z": 0}
+            return numpy.array([[0],
+                                [0],
+                                [0]])
 
-        force_in_directions = {}
-        acceleration = {}
+        distance_vector = self.position - other.position
+        distance = numpy.linalg.norm(distance_vector)
+        force = (6.67408 * (10**-11)) * ((self.mass * other.mass) / (distance ** 2))
+        forceratio = force / distance
 
-        distance_in_directions = self.distance_in_directions_to(other)
-        absolute_distance = self.absolute_distance_to(distance_in_directions)
-        force = (6.67408 * (10**-11)) * ((self.mass * other.mass) / (absolute_distance ** 2))
-        forceratio = force / absolute_distance
-
-        for direction in ['x', 'y', 'z']:
-            force = distance_in_directions[direction] * forceratio
-            acceleration[direction] = force / self.mass
-
-        return acceleration
+        return ( distance_vector * forceratio ) / self.mass
         
-    def acceleration_to_all(self, bodies: [Body]) -> dict:
-        """Function will be moved"""
-
-        total_acceleration = {"x": 0, "y": 0, "z": 0}
+    def acceleration_to_all(self, bodies: [Body]) -> numpy.ndarray:
+        total_acceleration = 0
 
         for body in bodies:
-            acceleration = self.acceleration_to_one(body)
-            for direction in ['x', 'y', 'z']:
-                total_acceleration[direction] += acceleration[direction]
+            total_acceleration += self.acceleration_to_one(body)
 
         return total_acceleration
         
     def calculate_position(self, change_in_time: float) -> None:
-        """ Calculates a new position for a new tick. Function will be moved."""
-        for direction in ["x", "y", "z"]:
-            self.position[direction] += change_in_time * self.velocity[direction]
+        self.position += change_in_time * self.velocity
     
     def calculate_velocity(self, bodies, change_in_time: float) -> None:
-        """ Calculates new velocity for a new tick. Function will be moved."""
-        acceleration = self.acceleration_to_all(bodies)
-
-        for direction in ["x", "y", "z"]:
-            self.velocity[direction] += change_in_time * acceleration[direction]
+        """ Calculates new velocity for a new tick."""
+        self.velocity += change_in_time * self.acceleration_to_all(bodies)
