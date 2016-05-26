@@ -19,8 +19,12 @@ Not implemented yet.
 
 ### General
 - [ ] 100% code coverage
-- [ ] Reading data from a .CSV-file
-- [ ] Writing data to a .CSV-file
+- [ ] <del>Reading and</del> writing results to a <del>.CSV-file</del> Excel-file[^export-excel][^export-excel-different-program]
+- [ ] Reading start-values of bodies from JSON or CSV
+- [ ] Reading and writing data from a file ([Pickle](https://docs.python.org/3/library/pickle.html) with [Base64](https://docs.python.org/3/library/base64.html))
+
+### Conversions
+- [x] Import and export from/to Pickle with Base64
 
 ### Simulator
 - [ ] Optimizing code for CPU (use of async-code, multiple threads?)
@@ -35,3 +39,6 @@ Not implemented yet.
 - [ ] Changeable virtual time
 - [ ] Determining the middle of the display
 - [ ] Showing the data of the simulator in three dimensions (xyz, 3D)
+
+[^export-excel]: Excel will be used because of the possibility of multiple sheets/tabs.
+[^export-excel-different-program]: A different program will be created to export Pickle-files to Excel files.
