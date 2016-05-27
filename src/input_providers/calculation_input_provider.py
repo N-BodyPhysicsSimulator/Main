@@ -1,6 +1,6 @@
-from ..models import Body
+from ..bodies import Body
 
-class CalculationCapsule(object):
+class CalculationInputProvider(object):
     def __init__(self, bodies: [Body], change_in_time: float):
         self.bodies = bodies
         self.ticks = 0

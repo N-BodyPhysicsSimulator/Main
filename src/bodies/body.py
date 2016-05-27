@@ -73,30 +73,3 @@ class Body(object):
     def calculate_velocity(self, bodies, change_in_time: float) -> None:
         """ Calculates new velocity for a new tick."""
         self.velocity += change_in_time * self.acceleration_to_all(bodies)
-
-    def to_pickle(self):
-        """Export to Pickle"""
-        return b64encode(pickle.dumps(self)).decode('utf-8')
-
-    def from_pickle(text):
-        """Import from Pickle
-        >>> moon = Body("Moon", 1, 100, (0, 6371000, 0), (1050, 29290, 0))
-        >>> Body.from_pickle(moon.to_pickle()).name
-        'Moon'
-        >>> Body.from_pickle(moon.to_pickle()).position == moon.position
-        array([[ True],
-               [ True],
-               [ True]], dtype=bool)
-        >>> Body.from_pickle(moon.to_pickle()).name == moon.name
-        True
-        >>> Body.from_pickle(moon.to_pickle()).velocity = moon.velocity
-        >>> Body.from_pickle(moon.to_pickle()).velocity == moon.velocity
-        array([[ True],
-               [ True],
-               [ True]], dtype=bool)
-        >>> Body.from_pickle(moon.to_pickle()).radius == moon.radius
-        True
-        >>> Body.from_pickle(moon.to_pickle()).mass == moon.mass
-        True
-        """
-        return pickle.loads(b64decode(text.encode('utf-8')))
