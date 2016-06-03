@@ -52,7 +52,7 @@ class Body(object):
                                 [0],
                                 [0]])
 
-        distance_vector = self.position - other.position
+        distance_vector = other.position - self.position
         distance = numpy.linalg.norm(distance_vector)
         force = (6.67408 * (10**-11)) * ((self.mass * other.mass) / (distance ** 2))
         forceratio = force / distance
