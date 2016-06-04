@@ -41,10 +41,10 @@ class Body(object):
     def acceleration_to_one(self, other: Body) -> numpy.ndarray:
         """Return acceleration in x, y, z directions.
         >>> earth = Body("Earth", 5.972*(10**24), 100, (0, 0, 0), (0, 29290, 0))
-        >>> moon = Body("Moon", 1, 100, (0, 6371000, 0), (1050, 29290, 0))
-        >>> moon.acceleration_to_one(earth)
+        >>> 1kg = Body("1kg", 1, 100, (0, 6371000, 0), (1050, 29290, 0))
+        >>> 1kg.acceleration_to_one(earth)
         array([[ 0.        ],
-               [ 9.81964974],
+               [ -9.81964974],
                [ 0.        ]])
         """
         if self == other:
