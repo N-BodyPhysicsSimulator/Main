@@ -82,7 +82,7 @@ class Body(object):
         >>> earth = Body("Earth", 5.972*(10**24), 100, (0, 0, 0), (0, 0, 0))
         >>> 1kg = Body("1kg", 1, 100, (0, 6371000, 0), (0, 0, 0))
         >>> 1kg.calculate_velocity(2)
-        1kg.velocity = array([[ 0.0 ],
+        1kg.velocity == array([[ 0.0 ],
                             [ -19.63929948],
                             [ 0.0 ]])
         """
