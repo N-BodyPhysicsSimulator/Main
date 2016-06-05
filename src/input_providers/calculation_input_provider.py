@@ -1,10 +1,10 @@
 from ..bodies import Body
 
 class CalculationInputProvider(object):
-    def __init__(self, bodies: [Body], change_in_time: float):
+    def __init__(self, bodies: [Body], delta_time: float):
         self.bodies = bodies
         self.ticks = 0
-        self.change_in_time = change_in_time # Delta Time
+        self.delta_time = delta_time # Delta Time
         self.time = 0
 
     def minimal_distance(self) -> float:
@@ -23,12 +23,12 @@ class CalculationInputProvider(object):
 
     def calculate(self) -> [Body]:
         self.ticks += 1
-        self.time += self.change_in_time
+        self.time += self.delta_time
 
-        change_change_in_time()
+        for body in bodies: body.calculate_position(self.delta_time)
+        for body in bodies: body.calculate_velocity(self.bodies, self.delta_time)
+        
+        self.change_delta_time()
 
-        for body in bodies: body.calculate_position(self.change_in_time)
-        for body in bodies: body.calculate_velocity(self.bodies, self.change_in_time)
-
-    def change_change_in_time(self):
+    def change_delta_time(self):
         pass

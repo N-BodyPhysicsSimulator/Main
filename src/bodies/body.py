@@ -67,9 +67,9 @@ class Body(object):
 
         return total_acceleration
         
-    def calculate_position(self, change_in_time: float) -> None:
-        self.position += change_in_time * self.velocity
+    def calculate_position(self, delta_time: float) -> None:
+        self.position += delta_time * self.velocity
     
-    def calculate_velocity(self, bodies, change_in_time: float) -> None:
+    def calculate_velocity(self, bodies, delta_time: float) -> None:
         """ Calculates new velocity for a new tick."""
-        self.velocity += change_in_time * self.acceleration_to_all(bodies)
+        self.velocity += delta_time * self.acceleration_to_all(bodies)
