@@ -24,12 +24,12 @@ class Body(object):
 
         Returns a Vector. Use numpy.linalg.norm(<Vector>) to get real distance in a float.
 
-        >>> earth = Body("Earth", 5.972*(10**24), 100, (1.496*(10**11), 0, 0), (0, 29290, 0))
-        >>> moon = Body("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), 0), (1050, 29290, 0))
+        >>> earth = Body("Earth", 5.972*(10**24), 100, (1.506*(10**11), 0, 100), (0, 29290, 0))
+        >>> moon = Body("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), -500), (1050, 29290, 0))
         >>> moon.distance_to(earth)
-        array([[  0.00000000e+00],
+        array([[  1.00000000e+09],
                [ -3.84400000e+08],
-               [  0.00000000e+00]])
+               [  6.00000000e+02]])
         """
         if self == other:
             return numpy.array([[0],
@@ -38,13 +38,24 @@ class Body(object):
 
         return other.position - self.position
         
+    def absolute_distance_to_one(self, other: Body) -> numpy.ndarray:
+        """Takes two instances of a bodies and calculates the absolute distance.
+
+        >>> earth = Body("Earth", 5.972*(10**24), 100, (1.496*(10**11), 0, 0), (0, 29290, 0))
+        >>> moon = Body("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), 0), (1050, 29290, 0))
+        >>> moon.absolute_distance_to_one(earth)
+        384400000.0
+        """
+        
+        return (((float(other.position[0][0]-self.position[0][0]))**2)+((float(other.position[1][0]-self.position[1][0]))**2)+((float(other.position[2][0]-self.position[2][0]))**2)) ** 0.5
+        
     def acceleration_to_one(self, other: Body) -> numpy.ndarray:
         """Return acceleration in x, y, z directions.
-        >>> earth = Body("Earth", 5.972*(10**24), 100, (0, 0, 0), (0, 29290, 0))
-        >>> moon = Body("Moon", 1, 100, (0, 6371000, 0), (1050, 29290, 0))
-        >>> moon.acceleration_to_one(earth)
+        >>> earth = Body("Earth", (5.972*(10**24)), 100.0, (0, 0, 0), (0, 0, 0))
+        >>> kg = Body("kg", 1.0, 100.0, (0, 6371000, 0), (0, 0, 0))
+        >>> kg.acceleration_to_one(earth)
         array([[ 0.        ],
-               [ 9.81964974],
+               [-9.81964974],
                [ 0.        ]])
         """
         if self == other:
@@ -53,8 +64,9 @@ class Body(object):
                                 [0]])
 
         distance_vector = other.position - self.position
-        distance = numpy.linalg.norm(distance_vector)
-        force = (6.67408 * (10**-11)) * ((self.mass * other.mass) / (distance ** 2))
+        distance = self.absolute_distance_to_one(other)
+        
+        force = (6.67408 * (10 ** -11)) * ((self.mass * other.mass) / (distance ** 2))
         forceratio = force / distance
 
         return ( distance_vector * forceratio ) / self.mass
@@ -73,3 +85,4 @@ class Body(object):
     def calculate_velocity(self, bodies, delta_time: float) -> None:
         """ Calculates new velocity for a new tick."""
         self.velocity += delta_time * self.acceleration_to_all(bodies)
+
