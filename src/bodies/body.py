@@ -10,14 +10,14 @@ class Body(object):
         self.name, self.mass, self.radius = name, mass, radius
 
         # Vector
-        self.position = numpy.array([[position[0]],
-                                     [position[1]],
-                                     [position[2]]])
+        self.position = numpy.array([[float(position[0])],
+                                     [float(position[1])],
+                                     [float(position[2])]])
 
         # Vector
-        self.velocity = numpy.array([[velocity[0]],
-                                     [velocity[1]],
-                                     [velocity[2]]])
+        self.velocity = numpy.array([[float(velocity[0])],
+                                     [float(velocity[1])],
+                                     [float(velocity[2])]])
 
     def distance_to(self, other: Body) -> numpy.ndarray:
         """Takes two instances of a bodies and calculates the distance.
@@ -95,10 +95,10 @@ class Body(object):
         """ Calculates a new position for a new tick
         >>> test_body = Body("Test_body", 1.0, 1.0, (60, -20, 15), (4, 10.2, -6))
         >>> test_body.calculate_position(3.0)
-        >>> print(test_body.position)
-        [[ 72. ]
-         [ 10.6]
-         [ -3. ]]
+        >>> test_body.position
+        array([[ 72. ],
+               [ 10.6],
+               [ -3. ]])
         """
         self.position += delta_time * self.velocity
     
@@ -113,20 +113,20 @@ class Body(object):
         >>> earth6 = Body("Earth6", (5.972*(10**24)), 100.0, (-6371000, -9000, 532), (0, 0, 0))
         >>> bodies = [kg, earth1, earth2, earth3, earth4, earth5, earth6]
         >>> kg.calculate_velocity(bodies, 314.0)
-        >>> print(kg.velocity)
-        [[ 0.]
-         [ 0.]
-         [ 0.]]
+        >>> kg.velocity
+        array([[ 0.],
+               [ 0.],
+               [ 0.]])
         
         >>> kg = Body("kg", 1.0, 100.0, (0, 0, 0), (0, 0, 0))
         >>> earth1 = Body("Earth1", (5.972*(10**24)), 100.0, (0, 6371000, 6280), (0, 0, 0))
         >>> moon = Body("Moon", 0.0735*(10**24), 100.0, (0, 384.4*(10**6), -1000), (0, 0, 0))
         >>> bodies = [kg, earth1, moon]
         >>> kg.calculate_velocity(bodies, 16.0)
-        >>> print(kg.velocity)
-        [[  0.00000000e+00]
-         [  1.57114698e+02]
-         [  1.54870030e-01]]
+        >>> kg.velocity
+        array([[  0.00000000e+00],
+               [  1.57114698e+02],
+               [  1.54870030e-01]])
          
         >>> kg = Body("kg", 1.0, 100.0, (0, 0, 0), (0, 0, 0))
         >>> earth1 = Body("Earth1", (5.972*(10**24)), 100.0, (0, 6371000, 6280), (0, 0, 0))
@@ -134,10 +134,10 @@ class Body(object):
         >>> bodies = [kg, earth1, moon]
         >>> kg.calculate_velocity(bodies, 16.0)
         >>> kg.calculate_position(16.0) # This is basicly a test of a tick
-        >>> print(kg.position)
-        [[  0.00000000e+00]
-         [  2.51383517e+03]
-         [  2.47792047e+00]]
+        >>> kg.position
+        array([[  0.00000000e+00],
+               [  2.51383517e+03],
+               [  2.47792047e+00]])
         """
         self.velocity += delta_time * self.acceleration_to_all(bodies)
 
