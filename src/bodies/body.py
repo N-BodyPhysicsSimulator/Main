@@ -47,7 +47,7 @@ class Body(object):
         384400000.0
         """
         
-        return (((float(other.position[0][0]-self.position[0][0]))**2)+((float(other.position[1][0]-self.position[1][0]))**2)+((float(other.position[2][0]-self.position[2][0]))**2)) ** 0.5
+        return (((other.position[0][0]-self.position[0][0])**2)+((other.position[1][0]-self.position[1][0])**2)+((other.position[2][0]-self.position[2][0])**2)) ** 0.5
         
     def acceleration_to_one(self, other: Body) -> numpy.ndarray:
         """Return acceleration in x, y, z directions.
