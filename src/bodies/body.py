@@ -10,14 +10,14 @@ class Body(object):
         self.name, self.mass, self.radius = name, mass, radius
 
         # Vector
-        self.position = numpy.array([[float(position[0])],
-                                     [float(position[1])],
-                                     [float(position[2])]])
+        self.position = numpy.array([[position[0]],
+                                     [position[1]],
+                                     [position[2]]]).astype('float64')
 
         # Vector
-        self.velocity = numpy.array([[float(velocity[0])],
-                                     [float(velocity[1])],
-                                     [float(velocity[2])]])
+        self.velocity = numpy.array([[velocity[0]],
+                                     [velocity[1]],
+                                     [velocity[2]]]).astype('float64')
 
     def distance_to(self, other: Body) -> numpy.ndarray:
         """Takes two instances of a bodies and calculates the distance.
