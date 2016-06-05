@@ -10,14 +10,14 @@ class Body(object):
         self.name, self.mass, self.radius = name, mass, radius
 
         # Vector
-        self.position = numpy.array([[float(position[0])],
-                                     [float(position[1])],
-                                     [float(position[2])]])
+        self.position = numpy.array([[position[0]],
+                                     [position[1]],
+                                     [position[2]]])
 
         # Vector
-        self.velocity = numpy.array([[float(velocity[0])],
-                                     [float(velocity[1])],
-                                     [float(velocity[2])]])
+        self.velocity = numpy.array([[velocity[0]],
+                                     [velocity[1]],
+                                     [velocity[2]]])
 
     def distance_to(self, other: Body) -> numpy.ndarray:
         """Takes two instances of a bodies and calculates the distance.
@@ -46,8 +46,8 @@ class Body(object):
         >>> moon.absolute_distance_to_one(earth)
         384400000.0
         """
-        
-        return (((other.position[0][0]-self.position[0][0])**2)+((other.position[1][0]-self.position[1][0])**2)+((other.position[2][0]-self.position[2][0])**2)) ** 0.5
+        test = other.position - self.position
+        return numpy.linalg.norm(test)
         
     def acceleration_to_one(self, other: Body) -> numpy.ndarray:
         """Return acceleration in x, y, z directions.
