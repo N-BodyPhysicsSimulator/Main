@@ -34,7 +34,7 @@ class CalculationInputProvider(object):
     def calculate(self):
         pass
 
-    def def change_delta_time(self):
+    def change_delta_time(self):
         amount_time_zones = self.time_zones["amount_time_zones"]
         if amount_time_zones > 0:
             minimal_distance = self.minimal_distance()
