@@ -1,4 +1,3 @@
 from .bodies import *
 from .input_providers import *
-
-from .test import test
+from .input_providers.calculation_input_provider import CalculationInputProvider
