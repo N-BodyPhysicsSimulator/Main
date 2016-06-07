@@ -140,5 +140,3 @@ class Body(object):
                [  2.47792047e+00]])
         """
         self.velocity += delta_time * self.acceleration_to_all(bodies)
-
-
