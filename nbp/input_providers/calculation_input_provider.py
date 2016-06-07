@@ -1,4 +1,4 @@
-from ..bodies import Body
+from nbp.bodies.body import Body
 
 class CalculationInputProvider(object):
     def __init__(self, bodies: [Body], time_zones: {}):
