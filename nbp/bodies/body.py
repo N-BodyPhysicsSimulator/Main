@@ -63,13 +63,13 @@ class Body(object):
                                 [0],
                                 [0]])
 
-        distance_vector = other.position - self.position
+        distance_vector = self.distance_to(other)
         distance = self.absolute_distance_to_one(other)
 
         force = (6.67408 * (10 ** -11)) * ((self.mass * other.mass) / (distance ** 2))
         forceratio = force / distance
 
-        return ( distance_vector * forceratio ) / self.mass
+        return (distance_vector * forceratio) / self.mass
 
     def acceleration_to_all(self, bodies: [Body]) -> numpy.ndarray:
         """ Return the acceleration in vectors to alll other bodies
@@ -84,10 +84,12 @@ class Body(object):
                [  6.07257588e-08]])
 
         """
-        total_acceleration = 0.0
+        total_acceleration = numpy.array([[0],
+                                          [0],
+                                          [0]]).astype("float64")
 
         for body in bodies:
-            total_acceleration += self.acceleration_to_one(body)
+            total_acceleration = total_acceleration + self.acceleration_to_one(body)
 
         return total_acceleration
 
@@ -100,7 +102,7 @@ class Body(object):
                [ 10.6],
                [ -3. ]])
         """
-        self.position += delta_time * self.velocity
+        self.position = self.position + (delta_time * self.velocity)
 
     def calculate_velocity(self, bodies, delta_time: float) -> None:
         """ Calculates new velocity for a new tick.
@@ -139,4 +141,4 @@ class Body(object):
                [  2.51383517e+03],
                [  2.47792047e+00]])
         """
-        self.velocity += delta_time * self.acceleration_to_all(bodies)
+        self.velocity = self.velocity + (delta_time * self.acceleration_to_all(bodies))
