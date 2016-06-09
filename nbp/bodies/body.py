@@ -30,6 +30,11 @@ class Body(object):
         array([[  1.00000000e+09],
                [ -3.84400000e+08],
                [  6.00000000e+02]])
+        >>> moon = Body("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), -500), (1050, 29290, 0))
+        >>> moon.distance_to(moon)
+        array([[ 0.],
+               [ 0.],
+               [ 0.]])
         """
         
         return other.position - self.position
