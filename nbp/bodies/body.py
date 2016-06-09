@@ -30,12 +30,13 @@ class Body(object):
         array([[  1.00000000e+09],
                [ -3.84400000e+08],
                [  6.00000000e+02]])
+        >>> moon = Body("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), -500), (1050, 29290, 0))
+        >>> moon.distance_to(moon)
+        array([[ 0.],
+               [ 0.],
+               [ 0.]])
         """
-        if self == other:
-            return numpy.array([[0],
-                                [0],
-                                [0]])
-
+        
         return other.position - self.position
         
     def absolute_distance_to_one(self, other: Body) -> numpy.ndarray:
@@ -46,8 +47,7 @@ class Body(object):
         >>> moon.absolute_distance_to_one(earth)
         384400000.0
         """
-        test = other.position - self.position
-        return numpy.linalg.norm(test)
+        return numpy.linalg.norm(other.position - self.position)
         
     def acceleration_to_one(self, other: Body) -> numpy.ndarray:
         """Return acceleration in x, y, z directions.
