@@ -63,7 +63,7 @@ class Body(object):
                                 [0],
                                 [0]])
 
-        distance_vector = other.position - self.position
+        distance_vector = self.distance_to(other)
         distance = self.absolute_distance_to_one(other)
 
         force = (6.67408 * (10 ** -11)) * ((self.mass * other.mass) / (distance ** 2))
@@ -84,7 +84,9 @@ class Body(object):
                [  6.07257588e-08]])
 
         """
-        total_acceleration = 0.0
+        total_acceleration = numpy.array([[0],
+                                          [0],
+                                          [0]])
 
         for body in bodies:
             total_acceleration += self.acceleration_to_one(body)
