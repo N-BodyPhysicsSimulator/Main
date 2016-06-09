@@ -6,7 +6,7 @@ pylint-src:
 
 pylint: pylint-src
 
-test:
+test
 	py.test --doctest-modules
 
 build: pylint test
