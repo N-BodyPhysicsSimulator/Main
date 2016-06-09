@@ -1,5 +1,6 @@
 # N-Body Physics Simulator (and Visualisator)
 [![codecov](https://codecov.io/gh/N-BodyPhysicsSimulator/main/branch/master/graph/badge.svg)](https://codecov.io/gh/N-BodyPhysicsSimulator/main)
+[![Build Status](https://travis-ci.org/N-BodyPhysicsSimulator/Main.svg?branch=master)](https://travis-ci.org/N-BodyPhysicsSimulator/Main)
 ## How to contribute
 
 1. Fork the project.
