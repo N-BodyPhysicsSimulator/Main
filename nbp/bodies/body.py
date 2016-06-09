@@ -31,10 +31,6 @@ class Body(object):
                [ -3.84400000e+08],
                [  6.00000000e+02]])
         """
-        if self == other:
-            return numpy.array([[0],
-                                [0],
-                                [0]])
 
         return other.position - self.position
         
