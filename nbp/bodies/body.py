@@ -47,7 +47,7 @@ class Body(object):
         >>> moon.absolute_distance_to_one(earth)
         384400000.0
         """
-        return numpy.linalg.norm(test)
+        return numpy.linalg.norm(other.position - self.position)
         
     def acceleration_to_one(self, other: Body) -> numpy.ndarray:
         """Return acceleration in x, y, z directions.
