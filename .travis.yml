@@ -2,3 +2,6 @@ language: python
 python: "3.5.1"
 install: pip install -r requirements.txt
 script: py.test --doctest-modules
+after_success:
+  - py.test --cov=nbp
+  - codecov
