@@ -82,8 +82,8 @@ class CalculationInputProvider(object):
         pass
 
     def change_delta_time(self):
-        """ Changes delta time based on the distance between bodies. 
-        @TODO: Refactor 
+        """ Changes delta time based on the distance between bodies.
+        @TODO: Refactor
         """
         amount_time_zones = self.time_zones["amount_time_zones"]
         if amount_time_zones > 0:
