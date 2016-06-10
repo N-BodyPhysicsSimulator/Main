@@ -8,8 +8,10 @@ pylint-src:
 pylint: pylint-src
 
 test:
-	py.test --doctest-modules
+	$(PY) -m pytest $(module) --doctest-modules
 
 build: pylint test
 
-pull-request: pylint
+codecov:
+	$(PY) -m pytest --cov=$(module)
+	$(PY) -m codecov
