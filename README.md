@@ -31,7 +31,7 @@ Not implemented yet.
 - [ ] Optimizing code for CPU (use of async-code, multiple threads?)
 - [ ] Optimizing code for GPU. GPU's are really good in doing many simple functions. (We could use ArrayFire, OpenCL or CUDA)
 - [ ] The possibility to theoretically calculate infinite bodies
-- [ ] Changing the change in time (Δt) based on the distance of bodies to eachother
+- [ ] Changing the delta time (change in time) based on the distance of bodies to eachother
 - [ ] Collision detection
 - [ ] Space ship: a body with the possibility to change speed depending on commands
 
