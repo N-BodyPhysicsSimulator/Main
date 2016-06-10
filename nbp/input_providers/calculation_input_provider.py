@@ -34,7 +34,9 @@ class CalculationInputProvider(object):
 
         for body in self.bodies:
             for other_body in self.bodies:
-                if body == other_body: continue
+                if body == other_body:
+                    continue
+
                 distance = body.absolute_distance_to_one(other_body)
                 if smallest_distance <= 0.0 or smallest_distance > distance:
                     smallest_distance = distance
@@ -68,15 +70,21 @@ class CalculationInputProvider(object):
         self.ticks += 1
         self.time += self.delta_time
 
-        for body in self.bodies: body.calculate_position(self.delta_time)
-        for body in self.bodies: body.calculate_velocity(self.bodies, self.delta_time)
+        for body in self.bodies:
+            body.calculate_position(self.delta_time)
+
+        for body in self.bodies:
+            body.calculate_velocity(self.bodies, self.delta_time)
+
         self.change_delta_time()
 
     def calculate(self):
         pass
 
     def change_delta_time(self):
-        """ Changes delta time based on the distance between bodies."""
+        """ Changes delta time based on the distance between bodies. 
+        @TODO: Refactor 
+        """
         amount_time_zones = self.time_zones["amount_time_zones"]
         if amount_time_zones > 0:
             minimal_distance = self.minimal_distance()

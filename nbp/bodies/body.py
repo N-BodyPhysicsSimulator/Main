@@ -1,9 +1,7 @@
 import numpy
-import pickle
 
-from base64 import b64encode, b64decode
-
-class Body(): pass # Will make Type Hinting work.
+class Body():
+    pass # Will make Type Hinting work.
 
 class Body(object):
     def __init__(self, name: str, mass: float, radius: float, position: tuple, velocity: tuple):
