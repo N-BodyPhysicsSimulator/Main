@@ -14,4 +14,4 @@ build: pylint test
 
 codecov:
 	$(PY) -m pytest --cov=$(module)
-	$(PY) -m codecov
+	codecov
