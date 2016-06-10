@@ -76,6 +76,7 @@ class CalculationInputProvider(object):
         pass
 
     def change_delta_time(self):
+        """ Changes delta time based on the distance between bodies."""
         amount_time_zones = self.time_zones["amount_time_zones"]
         if amount_time_zones > 0:
             minimal_distance = self.minimal_distance()
