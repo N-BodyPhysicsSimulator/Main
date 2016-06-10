@@ -83,7 +83,69 @@ class CalculationInputProvider(object):
 
     def change_delta_time(self):
         """ Changes delta time based on the distance between bodies. 
-        @TODO: Refactor 
+        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body('body2', 1, 100, (0, 99, 0), (0, 0, 0))
+        >>> bodies = [body1, body2]
+        >>> calculator = CalculationInputProvider(bodies, {"amount_time_zones": 4,"delta_time1": 1, "delta_time_radius1": 100, "delta_time2": 2, "delta_time_radius2": 200, "delta_time3": 3, "delta_time_radius3": 300, "delta_time4": 4, "delta_time_radius4": 400})
+        >>> calculator.change_delta_time()
+        >>> calculator.delta_time
+        1
+        
+        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body('body2', 1, 100, (0, 146.32, 0), (0, 0, 0))
+        >>> bodies = [body1, body2]
+        >>> calculator.bodies = bodies
+        >>> calculator.change_delta_time()
+        >>> calculator.delta_time
+        2
+        
+        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body('body2', 1, 100, (0, 200, 0), (0, 0, 0))
+        >>> bodies = [body1, body2]
+        >>> calculator.bodies = bodies
+        >>> calculator.change_delta_time()
+        >>> calculator.delta_time
+        2
+        
+        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body('body2', 1, 100, (0, 201, 0), (0, 0, 0))
+        >>> bodies = [body1, body2]
+        >>> calculator.bodies = bodies
+        >>> calculator.change_delta_time()
+        >>> calculator.delta_time
+        3
+        
+        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body('body2', 1, 100, (0, 314, 0), (0, 0, 0))
+        >>> bodies = [body1, body2]
+        >>> calculator.bodies = bodies
+        >>> calculator.change_delta_time()
+        >>> calculator.delta_time
+        4
+        
+        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body('body2', 1, 100, (0, 403, 0), (0, 0, 0))
+        >>> bodies = [body1, body2]
+        >>> calculator.bodies = bodies
+        >>> calculator.change_delta_time()
+        >>> calculator.delta_time
+        4
+        
+        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body('body2', 1, 100, (0, -152100000000, 0), (0, 0, 0))
+        >>> bodies = [body1, body2]
+        >>> calculator.bodies = bodies
+        >>> calculator.change_delta_time()
+        >>> calculator.delta_time
+        4
+        
+        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body('body2', 1, 100, (0, -154, 0), (0, 0, 0))
+        >>> bodies = [body1, body2]
+        >>> calculator.bodies = bodies
+        >>> calculator.change_delta_time()
+        >>> calculator.delta_time
+        2
         """
         amount_time_zones = self.time_zones["amount_time_zones"]
         if amount_time_zones > 0:
