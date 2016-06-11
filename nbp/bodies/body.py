@@ -140,3 +140,36 @@ class Body(object):
                [  2.47792047e+00]])
         """
         self.velocity = self.velocity + (delta_time * self.acceleration_to_all(bodies))
+
+    def merge(self, other):
+        """ merges one body with a second body. Important note: This function doesn't delete the other body!
+        It assumed that the density will stay the same after collision
+        >>> earth = Body("Earth", 5.972*(10**24), 6371000, (1.506*(10**11), 500, 100), (-100, 29290, -2))
+        >>> moon = Body("Moon", 0.0735*(10**24), 1738000, (1.496*(10**11), 384.4*(10**6), -500), (1050, -29290, 100))
+        >>> earth.merge(moon)
+        >>> earth.position
+        array([[  1.50587842e+11],
+               [  4.67395352e+06],
+               [  9.27053180e+01]])
+        >>> earth.velocity
+        array([[ -8.60185262e+01],
+               [  2.85777959e+04],
+               [ -7.59904061e-01]])
+        >>> earth.radius
+        6413824.949215559
+        >>> earth.mass # Notice the strage 1 at the end.
+        6.045500000000001e+24
+        >>> huge = Body("huge", 5.972*(10**24), 173843647354234567632353, (1.506*(10**11), 500, 100), (-100, 29290, -2))
+        >>> huge.merge(earth)
+        >>> huge.radius
+        1.7384364735423404e+23
+        >>> large = Body("huge", 5.972*(10**24), 17380000000, (1.506*(10**11), 500, 100), (-100, 29290, -2)) # Notice that if the radius of large is 1738000000000 that the radius will get smaller with 2,7 milimeters
+        >>> earth.merge(large)
+        >>> earth.radius
+        17380000000.291138
+        """
+        total_mass = self.mass + other.mass
+        self.position = (self.position * self.mass + other.position * other.mass) / total_mass
+        self.velocity = (self.velocity * self.mass + other.velocity * other.mass) / total_mass
+        self.radius = ((self.radius ** 3) + (other.radius ** 3)) ** (1/3)
+        self.mass = total_mass
