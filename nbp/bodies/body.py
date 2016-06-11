@@ -44,6 +44,10 @@ class Body(object):
         >>> moon = Body("Moon", 0.0735*(10**24), 100.0, (1.496*(10**11), 384.4*(10**6), 0), (1050, 29290, 0))
         >>> moon.absolute_distance_to_one(earth)
         384400000.0
+        >>> earth = Body("Earth", 5.972*(10**24), 100.0, (1.496*(10**11), 0, 0), (0, 29290, 0))
+        >>> moon = Body("Moon", 0.0735*(10**24), 100.0, (1.496*(10**11), -384.4*(10**6), -69834), (1050, 29290, 0))
+        >>> moon.absolute_distance_to_one(earth)
+        384400006.34337604
         """
         return numpy.linalg.norm(self.distance_to(other))
 
