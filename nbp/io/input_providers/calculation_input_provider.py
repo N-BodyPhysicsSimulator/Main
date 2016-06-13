@@ -8,6 +8,9 @@ class CalculationInputProvider(object):
         self.time_zones = time_zones # A list with the time zones in one list and the time zones radius in antohter can be in a random order {'time': [3, 2, 4, 1], 'radius': [200, 300, 100, 400]}
         self.time = 0
 
+        self.time_zones['time'].sort()
+        self.time_zones['radius'].sort()
+
     def minimal_distance(self) -> float:
         """Return the smallest distance between all bodies.
         >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
@@ -52,44 +55,6 @@ class CalculationInputProvider(object):
                     smallest_distance = distance
 
         return float(smallest_distance)
-
-    def calculate_one_tick(self) -> [Body]:
-        """ Calculates one tick of the simulator
-        >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
-        >>> earth = Body('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
-        >>> moon = Body('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
-        >>> jupiter = Body('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
-        >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
-        >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
-        >>> bodies = [sun, earth, moon, jupiter, saturn, neptune]
-        >>> calculator = CalculationInputProvider(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
-        >>> while calculator.time<(15 * 24 * 3600): calculator.calculate_one_tick()
-        >>> calculator.bodies[1].position
-        array([[37568574109.24809],
-               [147326604988.20786],
-               [40489728.17162777]], dtype=object)
-        >>> calculator.bodies[5].position
-        array([[-6959516107.873012],
-               [-4444444355076.259],
-               [499999.3655157559]], dtype=object)
-        >>> calculator.bodies[5].velocity
-        array([[-5369.991721566399],
-               [8.718903683962962],
-               [-9.795800343391017e-07]], dtype=object)
-        """
-        self.ticks += 1
-        self.time += self.delta_time
-
-        for body in self.bodies:
-            body.calculate_position(self.delta_time)
-
-        for body in self.bodies:
-            body.calculate_velocity(self.bodies, self.delta_time)
-
-        self.change_delta_time()
-
-    def calculate(self):
-        pass
 
     def change_delta_time(self):
         """ Changes delta time based on the distance between bodies. 
@@ -151,16 +116,60 @@ class CalculationInputProvider(object):
         2
         """
         minimal_distance = self.minimal_distance()
-        time_zones = self.time_zones
-        time_zones['time'].append(min(time_zones['time']))
-        time_zones['radius'].append(-1)
-        time_zones['time'].sort()
-        time_zones['radius'].sort()
         
-        for zone in range(1, len(time_zones['time'])):
-            lower_zone = zone - 1
-            if time_zones['radius'][lower_zone] < minimal_distance and time_zones['radius'][zone] >= minimal_distance:
-                self.delta_time = time_zones['time'][zone]
-            elif time_zones['radius'][zone] < minimal_distance:
-                self.delta_time = time_zones['time'][zone]
+        for zone_i, _ in enumerate(self.time_zones['time']):
+            zones = {
+                'upper': {
+                    'index': zone_i
+                },
+                'lower': {
+                    'index': zone_i - 1
+                }
+            }
 
+            for zone_type in ['upper', 'lower']:
+                i = zones[zone_type]['index']
+
+                for zone_input in ['radius', 'time']:
+                    zones[zone_type][zone_input] = self.time_zones[zone_input][i]
+
+            if ((zones['upper']['index'] == 0 and minimal_distance < zones['upper']['radius'])
+                    or (zones['lower']['radius'] < minimal_distance and zones['upper']['radius'] >= minimal_distance)
+                    or (zones['upper']['radius'] < minimal_distance)): # We could combine these 3 if-statements
+                self.delta_time = zones['upper']['time']
+            # else: self.delta_time = self.delta_time
+
+    def calculate_one_tick(self) -> [Body]:
+        """ Calculates one tick of the simulator
+        >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
+        >>> earth = Body('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
+        >>> moon = Body('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
+        >>> jupiter = Body('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
+        >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
+        >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
+        >>> bodies = [sun, earth, moon, jupiter, saturn, neptune]
+        >>> calculator = CalculationInputProvider(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
+        >>> while calculator.time < (0.24 * 24 * 3600): calculator.calculate_one_tick()
+        >>> calculator.bodies[1].position
+        array([[634425450.6842861],
+               [152098877195.82477],
+               [694116.6414370898]], dtype=object)
+        >>> calculator.bodies[5].position
+        array([[-116314199.7670317],
+               [-4444449998683.439],
+               [499999.9998518952]], dtype=object)
+        >>> calculator.bodies[5].velocity
+        array([[-5369.999973472422],
+               [0.14571932401226062],
+               [-1.6392377850297617e-08]], dtype=object)
+        """
+        self.ticks += 1
+        self.time += self.delta_time
+
+        for body in self.bodies:
+            body.calculate_position(self.delta_time)
+
+        for body in self.bodies:
+            body.calculate_velocity(self.bodies, self.delta_time)
+
+        self.change_delta_time()
