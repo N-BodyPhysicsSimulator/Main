@@ -57,7 +57,7 @@ class CalculationInputProvider(object):
         return float(smallest_distance)
 
     def change_delta_time(self):
-        """ Changes delta time based on the distance between bodies. 
+        """ Changes delta time based on the distance between bodies.
         >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
         >>> body2 = Body('body2', 1, 100, (0, 99, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
@@ -116,7 +116,7 @@ class CalculationInputProvider(object):
         2
         """
         minimal_distance = self.minimal_distance()
-        
+
         for zone_i, _ in enumerate(self.time_zones['time']):
             zones = {
                 'upper': {
