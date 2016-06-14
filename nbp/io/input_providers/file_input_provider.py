@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 from nbp.io.input_providers.input_provider import InputProvider
 
 class FileInputProvider(InputProvider, ABC):
@@ -11,3 +11,8 @@ class FileInputProvider(InputProvider, ABC):
     def get_filepath(self):
         """ Getter of filepath """
         return self.__filepath
+
+    @abstractmethod
+    def get_bodies(self):
+        """ Method to receive bodies. Returns a generator. """
+        raise NotImplementedError()
