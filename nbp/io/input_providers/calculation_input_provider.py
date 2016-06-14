@@ -160,8 +160,8 @@ class CalculationInputProvider(object):
                [499999.9998518952]], dtype=object)
         >>> calculator.bodies[5].velocity
         array([[-5369.999973472422],
-               [0.14571932401226062],
-               [-1.6392377850297617e-08]], dtype=object)
+               [0.14571932401226065],
+               [-1.639237785029762e-08]], dtype=object)
         """
         self.ticks += 1
         self.time += self.delta_time
