@@ -90,6 +90,9 @@ class CSVStartValueInputProvider(FileInputProvider):
         columns = None
 
         for line in open(self.get_filepath()):
+            if line.strip() == '':
+                continue
+
             line = [parse_string_value(v.strip()) for v in line.split(',')]
 
             if columns is None:
