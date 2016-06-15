@@ -82,31 +82,17 @@ def dict_to_body(body_dict) -> Body:
 
 class CSVStartValueInputProvider(FileInputProvider):
     def get_bodies(self) -> [Body]:
-        """ @TODO: Write doctest """
-        bodies = []
+        """ Function get_bodies. Returns a generator.
 
-        with open(self.get_filepath(), 'r') as opened_file:
-            columns = None
+        To use: use list to convert the generator to a list.
 
-            file = filter(
-                lambda l: len(l) > 0,
-                map(
-                    lambda l: l.split(','),
-                    opened_file.read().split("\n")
-                )
-            )
+        @TODO: Write doctest """
+        columns = None
 
-            opened_file.close()
+        for line in open(self.get_filepath()):
+            line = [parse_string_value(v.strip()) for v in line.split(',')]
 
-            for _, line in enumerate(file):
-                if columns is None:
-                    columns = line
-                else:
-                    line = [parse_string_value(v) for v in line]
-                    bodies.append(
-                        dict_to_body(
-                            combine_lists(columns, line)
-                        )
-                    )
-
-        return bodies
+            if columns is None:
+                columns = line
+            else:
+                yield dict_to_body(combine_lists(columns, line))
