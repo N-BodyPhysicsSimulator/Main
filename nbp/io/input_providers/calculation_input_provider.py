@@ -13,6 +13,10 @@ class CalculationInputProvider(object):
 
     def minimal_distance(self) -> float:
         """Return the smallest distance between all bodies.
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
         >>> earth = Body('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
         >>> moon = Body('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
@@ -141,6 +145,10 @@ class CalculationInputProvider(object):
 
     def calculate_one_tick(self) -> [Body]:
         """ Calculates one tick of the simulator
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
         >>> earth = Body('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
         >>> moon = Body('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
