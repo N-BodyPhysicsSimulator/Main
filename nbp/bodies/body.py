@@ -21,7 +21,10 @@ class Body(object):
         """Takes two instances of a bodies and calculates the distance.
 
         Returns a Vector. Use numpy.linalg.norm(<Vector>) to get real distance in a float.
-
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> earth = Body("Earth", 5.972*(10**24), 100, (1.506*(10**11), 0, 100), (0, 29290, 0))
         >>> moon = Body("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), -500), (1050, 29290, 0))
         >>> moon.distance_to(earth)
@@ -39,7 +42,10 @@ class Body(object):
 
     def absolute_distance_to_one(self, other: Body) -> numpy.ndarray:
         """Takes two instances of a bodies and calculates the absolute distance.
-
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> earth = Body("Earth", 5.972*(10**24), 100.0, (1.496*(10**11), 0, 0), (0, 29290, 0))
         >>> moon = Body("Moon", 0.0735*(10**24), 100.0, (1.496*(10**11), 384.4*(10**6), 0), (1050, 29290, 0))
         >>> moon.absolute_distance_to_one(earth)
@@ -53,6 +59,10 @@ class Body(object):
 
     def acceleration_to_one(self, other: Body) -> numpy.ndarray:
         """Return acceleration in x, y, z directions.
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> earth = Body("Earth", (5.972*(10**24)), 100.0, (0, 0, 0), (0, 0, 0))
         >>> kg = Body("kg", 1.0, 100.0, (0, 6371000, 0), (0, 0, 0))
         >>> kg.acceleration_to_one(earth)
@@ -75,6 +85,10 @@ class Body(object):
 
     def acceleration_to_all(self, bodies: [Body]) -> numpy.ndarray:
         """ Return the acceleration in vectors to alll other bodies
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> kg = Body("kg", 1.0, 100.0, (0, 0, 0), (0, 0, 0))
         >>> earth1 = Body("Earth1", (5.972*(10**24)), 100.0, (0, 6371000, 6280), (0, 0, 0))
         >>> earth2 = Body("Earth4", (5.972*(10**24)), 100.0, (-6371000, 0, 0), (0, 0, 0))
@@ -97,6 +111,10 @@ class Body(object):
 
     def calculate_position(self, delta_time: float) -> None:
         """ Calculates a new position for a new tick
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> test_body = Body("Test_body", 1.0, 1.0, (60, -20, 15), (4, 10.2, -6))
         >>> test_body.calculate_position(3.0)
         >>> test_body.position
@@ -108,6 +126,10 @@ class Body(object):
 
     def calculate_velocity(self, bodies, delta_time: float) -> None:
         """ Calculates new velocity for a new tick.
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> kg = Body("kg", 1.0, 100.0, (0, 0, 0), (0, 0, 0))
         >>> earth1 = Body("Earth1", (5.972*(10**24)), 100.0, (0, 6371000, 0), (0, 0, 0))
         >>> earth2 = Body("Earth2", (5.972*(10**24)), 100.0, (0, -6371000, 0), (0, 0, 0))
@@ -147,7 +169,11 @@ class Body(object):
 
     def merge(self, other):
         """ merges one body with a second body. Important note: This function doesn't delete the other body!
-        It assumed that the density will stay the same after collision
+        It assumed that the density will stay the same after collision.
+        
+        This test is based on the output of the function we wrote the test for.
+        TODO: Write better test
+        
         >>> earth = Body("Earth", 5.972*(10**24), 6371000, (1.506*(10**11), 500, 100), (-100, 29290, -2))
         >>> moon = Body("Moon", 0.0735*(10**24), 1738000, (1.496*(10**11), 384.4*(10**6), -500), (1050, -29290, 100))
         >>> earth.merge(moon)
