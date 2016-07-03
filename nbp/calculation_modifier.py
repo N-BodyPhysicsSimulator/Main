@@ -1,6 +1,6 @@
 from nbp.bodies import Body
 
-class CalculationInputProvider(object):
+class CalculationModificator(object):
     def __init__(self, bodies: [Body], time_zones):
         self.bodies = bodies
         self.ticks = 0
