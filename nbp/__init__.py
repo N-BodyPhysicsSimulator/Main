@@ -2,7 +2,8 @@
 
 from .bodies import Body
 
-from .io import CalculationInputProvider
+from .calculation_modifier import CalculationModifier
+
 from .io import InputProvider
 from .io import FileInputProvider
 from .io import CSVStartValueInputProvider

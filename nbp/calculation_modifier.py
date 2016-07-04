@@ -1,6 +1,6 @@
 from nbp.bodies import Body
 
-class CalculationInputProvider(object):
+class CalculationModifier(object):
     def __init__(self, bodies: [Body], time_zones):
         self.bodies = bodies
         self.ticks = 0
@@ -24,7 +24,7 @@ class CalculationInputProvider(object):
         >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
         >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         >>> bodies = [sun, earth, moon, jupiter, saturn, neptune]
-        >>> calculator = CalculationInputProvider(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
+        >>> calculator = CalculationModifier(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
         >>> calculator.minimal_distance()
         405500037.33168757
         >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
@@ -34,7 +34,7 @@ class CalculationInputProvider(object):
         >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
         >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         >>> bodies = [sun, earth, moon, jupiter, saturn, neptune]
-        >>> calculator = CalculationInputProvider(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
+        >>> calculator = CalculationModifier(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
         >>> calculator.minimal_distance()
         405500037.7620204
         >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
@@ -43,7 +43,7 @@ class CalculationInputProvider(object):
         >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
         >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         >>> bodies = [sun, earth, jupiter, saturn, neptune]
-        >>> calculator = CalculationInputProvider(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
+        >>> calculator = CalculationModifier(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
         >>> calculator.minimal_distance()
         152099999999.3627
         """
@@ -65,7 +65,7 @@ class CalculationInputProvider(object):
         >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
         >>> body2 = Body('body2', 1, 100, (0, 99, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
-        >>> calculator = CalculationInputProvider(bodies, {'time': [3, 2, 4, 1], 'radius': [200, 300, 100, 400]}) #{"amount_time_zones": 4,"delta_time1": 1, "delta_time_radius1": 100, "delta_time2": 2, "delta_time_radius2": 200, "delta_time3": 3, "delta_time_radius3": 300, "delta_time4": 4, "delta_time_radius4": 400})
+        >>> calculator = CalculationModifier(bodies, {'time': [3, 2, 4, 1], 'radius': [200, 300, 100, 400]}) #{"amount_time_zones": 4,"delta_time1": 1, "delta_time_radius1": 100, "delta_time2": 2, "delta_time_radius2": 200, "delta_time3": 3, "delta_time_radius3": 300, "delta_time4": 4, "delta_time_radius4": 400})
         >>> calculator.change_delta_time()
         >>> calculator.delta_time
         1
@@ -156,7 +156,7 @@ class CalculationInputProvider(object):
         >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
         >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         >>> bodies = [sun, earth, moon, jupiter, saturn, neptune]
-        >>> calculator = CalculationInputProvider(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
+        >>> calculator = CalculationModifier(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
         >>> while calculator.time < (0.24 * 24 * 3600): calculator.calculate_one_tick()
         >>> calculator.bodies[1].position
         array([[634425450.6842861],
