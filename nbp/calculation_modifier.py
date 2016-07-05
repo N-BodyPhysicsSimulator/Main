@@ -1,4 +1,5 @@
 from nbp.bodies import Body
+from nbp.physics_helper import calculate_position, calculate_velocity, absolute_distance_to_one
 
 class CalculationModifier(object):
     def __init__(self, bodies: [Body], time_zones):
@@ -17,31 +18,31 @@ class CalculationModifier(object):
         This test is based on the output of the function we wrote the test for.
         TODO: Write better test
         
-        >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
-        >>> earth = Body('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
-        >>> moon = Body('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
-        >>> jupiter = Body('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
-        >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
-        >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
+        >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
+        >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
+        >>> moon = Body.from_tuple_parameters('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
+        >>> jupiter = Body.from_tuple_parameters('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
+        >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
+        >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         >>> bodies = [sun, earth, moon, jupiter, saturn, neptune]
         >>> calculator = CalculationModifier(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
         >>> calculator.minimal_distance()
         405500037.33168757
-        >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
-        >>> earth = Body('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
-        >>> moon = Body('moon', 73460000000000000000000, 100, (-405500000, 152100000000, -174000), (29290, 964, 0))
-        >>> jupiter = Body('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
-        >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
-        >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
+        >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
+        >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
+        >>> moon = Body.from_tuple_parameters('moon', 73460000000000000000000, 100, (-405500000, 152100000000, -174000), (29290, 964, 0))
+        >>> jupiter = Body.from_tuple_parameters('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
+        >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
+        >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         >>> bodies = [sun, earth, moon, jupiter, saturn, neptune]
         >>> calculator = CalculationModifier(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
         >>> calculator.minimal_distance()
-        405500037.7620204
-        >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
-        >>> earth = Body('earth', 5972000000000000000000000, 100, (107550941418, 107550941418, 100000), (29290, 0, 32))
-        >>> jupiter = Body('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
-        >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
-        >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
+        405500037.76202041
+        >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
+        >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (107550941418, 107550941418, 100000), (29290, 0, 32))
+        >>> jupiter = Body.from_tuple_parameters('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
+        >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
+        >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         >>> bodies = [sun, earth, jupiter, saturn, neptune]
         >>> calculator = CalculationModifier(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
         >>> calculator.minimal_distance()
@@ -54,65 +55,65 @@ class CalculationModifier(object):
                 if body == other_body:
                     continue
 
-                distance = body.absolute_distance_to_one(other_body)
+                distance = absolute_distance_to_one(body, other_body)
                 if smallest_distance <= 0.0 or smallest_distance > distance:
                     smallest_distance = distance
 
-        return float(smallest_distance)
+        return smallest_distance
 
     def change_delta_time(self):
         """ Changes delta time based on the distance between bodies.
-        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
-        >>> body2 = Body('body2', 1, 100, (0, 99, 0), (0, 0, 0))
+        >>> body1 = Body.from_tuple_parameters('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body.from_tuple_parameters('body2', 1, 100, (0, 99, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
         >>> calculator = CalculationModifier(bodies, {'time': [3, 2, 4, 1], 'radius': [200, 300, 100, 400]}) #{"amount_time_zones": 4,"delta_time1": 1, "delta_time_radius1": 100, "delta_time2": 2, "delta_time_radius2": 200, "delta_time3": 3, "delta_time_radius3": 300, "delta_time4": 4, "delta_time_radius4": 400})
         >>> calculator.change_delta_time()
         >>> calculator.delta_time
         1
-        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
-        >>> body2 = Body('body2', 1, 100, (0, 146.32, 0), (0, 0, 0))
+        >>> body1 = Body.from_tuple_parameters('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body.from_tuple_parameters('body2', 1, 100, (0, 146.32, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
         >>> calculator.bodies = bodies
         >>> calculator.change_delta_time()
         >>> calculator.delta_time
         2
-        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
-        >>> body2 = Body('body2', 1, 100, (0, 200, 0), (0, 0, 0))
+        >>> body1 = Body.from_tuple_parameters('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body.from_tuple_parameters('body2', 1, 100, (0, 200, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
         >>> calculator.bodies = bodies
         >>> calculator.change_delta_time()
         >>> calculator.delta_time
         2
-        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
-        >>> body2 = Body('body2', 1, 100, (0, 201, 0), (0, 0, 0))
+        >>> body1 = Body.from_tuple_parameters('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body.from_tuple_parameters('body2', 1, 100, (0, 201, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
         >>> calculator.bodies = bodies
         >>> calculator.change_delta_time()
         >>> calculator.delta_time
         3
-        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
-        >>> body2 = Body('body2', 1, 100, (0, 314, 0), (0, 0, 0))
+        >>> body1 = Body.from_tuple_parameters('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body.from_tuple_parameters('body2', 1, 100, (0, 314, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
         >>> calculator.bodies = bodies
         >>> calculator.change_delta_time()
         >>> calculator.delta_time
         4
-        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
-        >>> body2 = Body('body2', 1, 100, (0, 403, 0), (0, 0, 0))
+        >>> body1 = Body.from_tuple_parameters('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body.from_tuple_parameters('body2', 1, 100, (0, 403, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
         >>> calculator.bodies = bodies
         >>> calculator.change_delta_time()
         >>> calculator.delta_time
         4
-        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
-        >>> body2 = Body('body2', 1, 100, (0, -152100000000, 0), (0, 0, 0))
+        >>> body1 = Body.from_tuple_parameters('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body.from_tuple_parameters('body2', 1, 100, (0, -152100000000, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
         >>> calculator.bodies = bodies
         >>> calculator.change_delta_time()
         >>> calculator.delta_time
         4
-        >>> body1 = Body('body1', 1, 100, (0, 0, 0), (0, 0, 0))
-        >>> body2 = Body('body2', 1, 100, (0, -154, 0), (0, 0, 0))
+        >>> body1 = Body.from_tuple_parameters('body1', 1, 100, (0, 0, 0), (0, 0, 0))
+        >>> body2 = Body.from_tuple_parameters('body2', 1, 100, (0, -154, 0), (0, 0, 0))
         >>> bodies = [body1, body2]
         >>> calculator.bodies = bodies
         >>> calculator.change_delta_time()
@@ -149,13 +150,14 @@ class CalculationModifier(object):
         This test is based on the output of the function we wrote the test for.
         TODO: Write better test
         
-        >>> sun = Body('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
-        >>> earth = Body('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
-        >>> moon = Body('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
-        >>> jupiter = Body('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
-        >>> saturn = Body('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
-        >>> neptune = Body('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
+        >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
+        >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
+        >>> moon = Body.from_tuple_parameters('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
+        >>> jupiter = Body.from_tuple_parameters('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
+        >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
+        >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         >>> bodies = [sun, earth, moon, jupiter, saturn, neptune]
+        
         >>> calculator = CalculationModifier(bodies, {'time': [60, 3600], 'radius': [395500000, 152100000000]})
         >>> while calculator.time < (0.24 * 24 * 3600): calculator.calculate_one_tick()
         >>> calculator.bodies[1].position
@@ -175,9 +177,9 @@ class CalculationModifier(object):
         self.time += self.delta_time
 
         for body in self.bodies:
-            body.calculate_position(self.delta_time)
+            body.position = calculate_position(body, self.delta_time)
 
         for body in self.bodies:
-            body.calculate_velocity(self.bodies, self.delta_time)
+            body.velocity = calculate_velocity(body, self.bodies, self.delta_time)
 
         self.change_delta_time()

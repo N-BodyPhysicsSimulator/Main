@@ -45,7 +45,7 @@ def parse_string_value(string_value):
 
 def dict_to_body(body_dict) -> Body:
     """
-    >>> a = Body('Earth', 123, 456, (7, 8, 9), (10, 11, 12))
+    >>> a = Body.from_tuple_parameters('Earth', 123, 456, (7, 8, 9), (10, 11, 12))
     >>> b = dict_to_body({
     ...     'name': 'Earth',
     ...     'mass': 123,
@@ -72,7 +72,7 @@ def dict_to_body(body_dict) -> Body:
            [ True],
            [ True]], dtype=bool)
     """
-    return Body(
+    return Body.from_tuple_parameters(
         body_dict['name'],
         body_dict['mass'],
         body_dict['radius'],
