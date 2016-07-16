@@ -6,12 +6,12 @@ class InputProvider(ABC):
     >>> a = ExampleInputProvider()
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
-    TypeError: Can't instantiate abstract class ExampleInputProvider with abstract methods get_bodies
+    TypeError: Can't instantiate abstract class ExampleInputProvider with abstract methods get_body_states
     >>> class ExampleInputProvider(InputProvider):
-    ...     def get_bodies(): return []
+    ...     def get_body_states(): yield []
     >>> a = ExampleInputProvider()
     """
     @abstractmethod
-    def get_bodies(self):
+    def get_body_states(self):
         """ Method to receive bodies. Returns a generator. """
         raise NotImplementedError()

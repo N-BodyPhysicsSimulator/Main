@@ -27,7 +27,7 @@ def distance_to(one_body: Body, other_body: Body) -> numpy.ndarray:
     """
     return other_body.position - one_body.position
 
-def absolute_distance_to_one(one_body: Body, other_body: Body) -> numpy.ndarray:
+def absolute_distance_to_one(one_body: Body, other_body: Body) -> float:
     """Takes two instances of a bodies and calculates the absolute distance.
     
     This test is based on the output of the function we wrote the test for.
@@ -35,7 +35,7 @@ def absolute_distance_to_one(one_body: Body, other_body: Body) -> numpy.ndarray:
     
     >>> earth = Body.from_tuple_parameters("Earth", 5.972*(10**24), 100.0, (1.496*(10**11), 0, 0), (0, 29290, 0))
     >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100.0, (1.496*(10**11), 384.4*(10**6), 0), (1050, 29290, 0))
-    >>> absolute_distance_to_one(moon,earth)
+    >>> absolute_distance_to_one(moon, earth)
     384400000.0
     
     >>> earth = Body.from_tuple_parameters("Earth", 5.972*(10**24), 100.0, (1.496*(10**11), 0, 0), (0, 29290, 0))
@@ -111,7 +111,7 @@ def calculate_position(body: Body, delta_time: float) -> numpy.ndarray:
     """
     return body.position + (delta_time * body.velocity)
 
-def calculate_velocity(one_body: Body, other_bodies: [Body], delta_time: float) -> None:
+def calculate_velocity(one_body: Body, delta_time: float, other_bodies: [Body]) -> None:
     """ Calculates new velocity for a new tick.
 
         This test is based on the output of the function we wrote the test for.
@@ -124,7 +124,7 @@ def calculate_velocity(one_body: Body, other_bodies: [Body], delta_time: float) 
         >>> e4 = Body.from_tuple_parameters("Earth4", (5.972*(10**24)), 100.0, (-6371000, 0, 0), (0, 0, 0))
         >>> e5 = Body.from_tuple_parameters("Earth5", (5.972*(10**24)), 100.0, (6371000, 9000, -532), (0, 0, 0))
         >>> e6 = Body.from_tuple_parameters("Earth6", (5.972*(10**24)), 100.0, (-6371000, -9000, 532), (0, 0, 0))
-        >>> calculate_velocity(kg, [kg, e1, e2, e3, e4, e5, e6], 314.0)
+        >>> calculate_velocity(kg, 314.0, [kg, e1, e2, e3, e4, e5, e6])
         array([[ 0.],
                [ 0.],
                [ 0.]])
@@ -132,7 +132,7 @@ def calculate_velocity(one_body: Body, other_bodies: [Body], delta_time: float) 
         >>> kg = Body.from_tuple_parameters("kg", 1.0, 100.0, (0, 0, 0), (0, 0, 0))
         >>> earth1 = Body.from_tuple_parameters("Earth1", (5.972*(10**24)), 100.0, (0, 6371000, 6280), (0, 0, 0))
         >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100.0, (0, 384.4*(10**6), -1000), (0, 0, 0))
-        >>> calculate_velocity(kg, [kg, earth1, moon], 16.0)
+        >>> calculate_velocity(kg, 16.0, [kg, earth1, moon])
         array([[  0.00000000e+00],
                [  1.57114698e+02],
                [  1.54870030e-01]])
@@ -192,3 +192,48 @@ def merge_bodies(one_body: Body, other_body: Body) -> Body:
 
 def calculate_force(one_mass, other_mass, distance):
     return (6.67408 * (10 ** -11)) * ((one_mass * other_mass) / (distance ** 2))
+
+def minimal_distance(bodies: [Body]) -> float:
+    """Return the smallest distance between all bodies.
+    
+    This test is based on the output of the function we wrote the test for.
+    TODO: Write better test
+    
+    >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
+    >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
+    >>> moon = Body.from_tuple_parameters('moon', 73460000000000000000000, 100, (405500000, 152100000000, 175000), (29290, 964, 0))
+    >>> jupiter = Body.from_tuple_parameters('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
+    >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
+    >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
+    >>> minimal_distance([sun, earth, moon, jupiter, saturn, neptune])
+    405500037.33168757
+
+    >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
+    >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
+    >>> moon = Body.from_tuple_parameters('moon', 73460000000000000000000, 100, (-405500000, 152100000000, -174000), (29290, 964, 0))
+    >>> jupiter = Body.from_tuple_parameters('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
+    >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
+    >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
+    >>> minimal_distance([sun, earth, moon, jupiter, saturn, neptune])
+    405500037.76202041
+    
+    >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
+    >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (107550941418, 107550941418, 100000), (29290, 0, 32))
+    >>> jupiter = Body.from_tuple_parameters('jupiter', 1900000000000000000000000000, 100, (816620000000, 0, -1000), (40, 12440, 1))
+    >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
+    >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
+    >>> minimal_distance([sun, earth, jupiter, saturn, neptune])
+    152099999999.3627
+    """
+    smallest_distance = 0.0
+
+    for body in bodies:
+        for other_body in bodies:
+            if body == other_body:
+                continue
+
+            distance = absolute_distance_to_one(body, other_body)
+            if smallest_distance <= 0.0 or smallest_distance > distance:
+                smallest_distance = distance
+
+    return smallest_distance
