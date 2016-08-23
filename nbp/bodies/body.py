@@ -54,3 +54,20 @@ class Body(object):
         return numpy.array([[t[0]],
                             [t[1]],
                             [t[2]]]).astype('float64')
+
+    def to_dict(self):
+        return {
+            'name': self.name,
+            'mass': self.mass,
+            'radius': self.radius,
+            'position': {
+                'x': self.position[0][0],
+                'y': self.position[1][0],
+                'z': self.position[2][0]
+            },
+            'velocity': {
+                'x': self.velocity[0][0],
+                'y': self.velocity[1][0],
+                'z': self.velocity[2][0]
+            }
+        }

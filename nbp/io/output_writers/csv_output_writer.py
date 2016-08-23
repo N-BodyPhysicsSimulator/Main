@@ -1,8 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import os
-from mpl_toolkits.mplot3d.axes3d import Axes3D
-from matplotlib.animation import FuncAnimation
 
 class CSVOutputWriter(object):
     def __init__(self, body_states, **kwargs):
@@ -16,7 +13,7 @@ class CSVOutputWriter(object):
         if max_ticks:
             max = range(0, int(max_ticks))
         else:
-            max = body_states
+            max = iter(int, 1) #inf
 
         for body_state in max:
             self.__tick(path, next(body_states))
