@@ -13,10 +13,4 @@ class DummyFileInputProvider(FileInputProvider):
         neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
         bodies = [sun, earth, moon, jupiter, saturn, neptune]
 
-        state = BodyState(bodies, 0, 0, (24 * 60 * 60 * ((365.25) / 8) ))
-
-        while True:
-            state = CalculationModifier.modificate(state)
-
-            yield state
-              
+        yield BodyState(bodies, 0, 0, (24 * 60 * 60 * ((365.25) / 8) ))

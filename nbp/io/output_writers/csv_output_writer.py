@@ -2,21 +2,14 @@ import numpy as np
 import os
 
 class CSVOutputWriter(object):
-    def __init__(self, body_states, **kwargs):
+    def __init__(self, pipe, kwargs):
         path = kwargs.get('path')
 
         if not os.path.isdir(path):
             raise ValueError("Path %s is not a valid path." % path)
         
-        max_ticks = kwargs.get('max_ticks')
-
-        if max_ticks:
-            max = range(0, int(max_ticks))
-        else:
-            max = iter(int, 1) #inf
-
-        for body_state in max:
-            self.__tick(path, next(body_states))
+        while True:
+            self.__tick(path, pipe.recv())
 
     def __tick(self, path, body_state):
         for body in body_state.bodies:
