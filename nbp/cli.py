@@ -12,8 +12,6 @@ from nbp.io.output_writers import OutputWritingsManager
 
 from nbp.modifiers import CalculationModifier
 
-from nbp.modifiers import ModificationManager
-
 class Cli:
     __input_providers = {
         'dummy': DummyFileInputProvider
@@ -41,14 +39,13 @@ class Cli:
 
         if self.__args.modifier:
             for modifier_name in self.__args.modifier:
-                modifier = self.__modifiers[modifier_name]()
-                generator = ModificationManager(generator, modifier).get_generator()
+                generator = self.__modifiers[modifier_name](generator).get_generator()
 
         for ow_name in self.__args.outputwriter:
             parent, child = Pipe()
 
-            ow = self.__output_writers[ow_name]()
-            Thread(target=OutputWritingsManager, args=(child, vars(self.__args), ow)).start()
+            ow = self.__output_writers[ow_name]
+            Thread(target=ow, args=(child, vars(self.__args))).start()
 
             pipes.append(parent)
 
