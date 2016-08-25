@@ -10,38 +10,39 @@ from nbp.io.output_writers import WSOutputWriter
 
 from nbp.modifiers import CalculationModifier
 
-class cli:
-    input_providers = {
+class Cli:
+    __input_providers = {
         'dummy': DummyFileInputProvider
     }
 
-    output_writers = {
+    __output_writers = {
         'csv': CSVOutputWriter,
         'ws': WSOutputWriter,
     }
 
-    modifiers = {
+    __modifiers = {
         'calculation': CalculationModifier
     }
     
-    @staticmethod
-    def start(args):
-        print(args)
-        input_provider_class = cli.input_providers[args.inputprovider]
+    def __init__(self, args):
+        self.__args = args
+
+    def start_application(self):
+        input_provider_class = self.__input_providers[self.__args.inputprovider]
 
         input_provider = input_provider_class('')
         generator = input_provider.get_body_states()
 
         pipes = []
 
-        for modifier_name in args.modifier:
-            modifier_class = cli.modifiers[modifier_name]
+        for modifier_name in self.__args.modifier:
+            modifier_class = self.__modifiers[modifier_name]
             generator = modifier_class(generator).get_generator()
 
-        for ow_name in args.outputwriter:
+        for ow_name in self.__args.outputwriter:
             parent, child = Pipe()
-            ow_class = cli.output_writers[ow_name]
-            Thread(target=ow_class, args=(child, vars(args))).start()
+            ow_class = self.__output_writers[ow_name]
+            Thread(target=ow_class, args=(child, vars(self.__args))).start()
 
             pipes.append(parent)
 
@@ -54,19 +55,19 @@ class cli:
         parser = argparse.ArgumentParser(description='N-Body Physics Simulator')
 
         parser.add_argument('--inputprovider', metavar='i',
-                            type=str, help='Selection of Input Provider',
-                            dest='inputprovider')
+                            type=str, help='Selection of Input Provider.',
+                            dest='inputprovider', required=True)
 
         parser.add_argument('--outputwriter', metavar='o', 
-                            type=str, help='Selection of Output Writers',
-                            dest='outputwriter', nargs='*')
+                            type=str, help='Selection of Output Writers.',
+                            dest='outputwriter', nargs='*', required=True)
 
         parser.add_argument('--modifier', metavar='m', 
                             type=str, help='Selection of modifier(s).',
                             dest='modifier', nargs='*')
 
         parser.add_argument('--port', metavar='p', 
-                            type=str, help='Port to run on.',
+                            type=str, help='Port to run on, might be required.',
                             dest='port')
 
         parser.add_argument('--path', metavar='P', 
@@ -74,7 +75,11 @@ class cli:
                             dest='path')
 
         parser.add_argument('--max-ticks', metavar='M', 
-                            type=str, help='Max ticks to calculate, might be required.',
+                            type=str, help='Max ticks to calculate.',
+                            dest='max_ticks')
+
+        parser.add_argument('--max-ticks', metavar='M', 
+                            type=str, help='Max time to calculate.',
                             dest='max_ticks')
 
         return parser

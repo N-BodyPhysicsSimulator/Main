@@ -1,8 +1,8 @@
 if __name__ != "__main__":
     print("File should be executed")
 else:
-    from nbp import cli
+    from nbp import Cli
 
-    args = cli.get_parser().parse_args()
-    cli.start(args);
-        
+    Cli(
+        Cli.get_parser().parse_args()
+    ).start_application()
