@@ -1,17 +1,25 @@
 import numpy as np
 import os
 
-class CSVOutputWriter(object):
-    def __init__(self, pipe, kwargs):
-        path = kwargs.get('path')
+from .output_writer import OutputWriter
 
-        if not os.path.isdir(path):
-            raise ValueError("Path %s is not a valid path." % path)
-        
-        while True:
-            self.__tick(path, pipe.recv())
+from nbp import validate_is_dir
 
-    def __tick(self, path, body_state):
+class CSVOutputWriter(OutputWriter):
+    @staticmethod
+    def get_validation_schema():
+        return {
+            'path': {
+                'required': True,
+                'type': 'string',
+                'empty': False,
+                'validator': validate_is_dir
+            }
+        }
+
+    def tick(self, body_state, args):
+        path = args.get('path')
+
         for body in body_state.bodies:
             filepath = os.path.join(path, (body.name + '.csv') )
 

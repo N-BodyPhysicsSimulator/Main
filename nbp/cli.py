@@ -8,7 +8,11 @@ from nbp.io.input_providers import DummyFileInputProvider
 from nbp.io.output_writers import CSVOutputWriter
 from nbp.io.output_writers import WSOutputWriter
 
+from nbp.io.output_writers import OutputWritingsManager
+
 from nbp.modifiers import CalculationModifier
+
+from nbp.modifiers import ModificationManager
 
 class Cli:
     __input_providers = {
@@ -35,14 +39,16 @@ class Cli:
 
         pipes = []
 
-        for modifier_name in self.__args.modifier:
-            modifier_class = self.__modifiers[modifier_name]
-            generator = modifier_class(generator).get_generator()
+        if self.__args.modifier:
+            for modifier_name in self.__args.modifier:
+                modifier = self.__modifiers[modifier_name]()
+                generator = ModificationManager(generator, modifier).get_generator()
 
         for ow_name in self.__args.outputwriter:
             parent, child = Pipe()
-            ow_class = self.__output_writers[ow_name]
-            Thread(target=ow_class, args=(child, vars(self.__args))).start()
+
+            ow = self.__output_writers[ow_name]()
+            Thread(target=OutputWritingsManager, args=(child, vars(self.__args), ow)).start()
 
             pipes.append(parent)
 
@@ -54,31 +60,31 @@ class Cli:
     def get_parser():
         parser = argparse.ArgumentParser(description='N-Body Physics Simulator')
 
-        parser.add_argument('--inputprovider', metavar='i',
+        parser.add_argument('--inputprovider', metavar='ip',
                             type=str, help='Selection of Input Provider.',
                             dest='inputprovider', required=True)
 
-        parser.add_argument('--outputwriter', metavar='o', 
+        parser.add_argument('--outputwriter', metavar='outputwriters', 
                             type=str, help='Selection of Output Writers.',
-                            dest='outputwriter', nargs='*', required=True)
+                            dest='outputwriter', nargs='+', required=True)
 
-        parser.add_argument('--modifier', metavar='m', 
+        parser.add_argument('--modifier', metavar='modifiers', 
                             type=str, help='Selection of modifier(s).',
                             dest='modifier', nargs='*')
 
-        parser.add_argument('--port', metavar='p', 
+        parser.add_argument('--port', metavar='port', 
                             type=str, help='Port to run on, might be required.',
                             dest='port')
 
-        parser.add_argument('--path', metavar='P', 
+        parser.add_argument('--path', metavar='path', 
                             type=str, help='Path of output, might be required.',
                             dest='path')
 
-        parser.add_argument('--max-ticks', metavar='M', 
+        parser.add_argument('--max-ticks', metavar='ticks', 
                             type=str, help='Max ticks to calculate.',
                             dest='max_ticks')
 
-        parser.add_argument('--max-ticks', metavar='M', 
+        parser.add_argument('--max-time', metavar='time', 
                             type=str, help='Max time to calculate.',
                             dest='max_ticks')
 

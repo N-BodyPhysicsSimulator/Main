@@ -7,23 +7,10 @@ from nbp.physics_helper import absolute_distance_to_one
 from nbp.physics_helper import minimal_distance
 from nbp.physics_helper import merge_bodies
 
-class CalculationModifier(object):
-    def __init__(self, generator):
-        self.generator = generator
+from nbp.modifiers import Modifier
 
-    def get_generator(self):
-        try:
-            while True:
-                state = next(self.generator)
-                yield state
-        except StopIteration:
-            pass
-        finally:
-            while True:
-                state = self.__modificate(state)
-                yield state
-        
-    def __modificate(self, state: BodyState) -> BodyState:
+class CalculationModifier(Modifier):
+    def modificate(self, state: BodyState) -> BodyState:
         """Calculates one tick of the simulator"""
         state.ticks += 1
         state.time += state.delta_time

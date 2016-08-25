@@ -5,3 +5,5 @@ a Output Writer to output data to Excel sheets """
 from .test_output_writer import TestOutputWriter
 from .csv_output_writer import CSVOutputWriter
 from .ws_output_writer import WSOutputWriter
+
+from .output_writings_manager import OutputWritingsManager
