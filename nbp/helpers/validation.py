@@ -5,26 +5,43 @@ from types import FunctionType
 
 
 def int_greater_than_zero(time: int) -> int:
+    """
+    >>> int_greater_than_zero(1)
+    1
+
+    >>> int_greater_than_zero(0)
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Value should be greater than 0.
+
+    >>> int_greater_than_zero(-10)
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Value should be greater than 0.
+    """
     time = int(time)
 
     if time <= 0:
-        raise ArgumentTypeError('Value should not be greater than 0.')
+        raise ArgumentTypeError('Value should be greater than 0.')
 
     return time
 
 
-def from_dict(dictionary: dict, error_message: str) -> FunctionType:
-    def func(key) -> object:
-        item = dictionary.get(key)
-        if item is None:
-            raise ArgumentTypeError(error_message)
-        else:
-            return dictionary
+def int_is_valid_port(port: int) -> int:
+    """
+    >>> int_is_valid_port(4092)
+    4092
+    
+    >>> int_is_valid_port(80)
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Privileged port used.
 
-    return func
+    >>> int_is_valid_port(9999999)
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Port outside port range.
 
-
-def int_is_valid_port(port) -> int:
+    >>> int_is_valid_port(-4092)
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Port outside port range.
+    """
     port = int(port)
 
     if port in range(1, 1024):
@@ -50,13 +67,50 @@ def int_is_open_port(port: int) -> int:
 
 
 def str_is_existing_path(path: str) -> str:
+    """
+    >>> str_is_existing_path('/')
+    '/'
+
+    >>> str_is_existing_path('/home')
+    '/home'
+
+    >>> str_is_existing_path('/bin/bash')
+    '/bin/bash'
+    
+    >>> str_is_existing_path('')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Given path is not an existing file or directory.
+
+    >>> str_is_existing_path('')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Given path is not an existing file or directory.
+
+    >>> str_is_existing_path('/non/existing/dir')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Given path is not an existing file or directory.
+    """
     if isfile(path) or isdir(path):
-        raise ArgumentTypeError("Given path is not an existing file or directory.")
-    else:
         return path
+    else:
+        raise ArgumentTypeError("Given path is not an existing file or directory.")
 
 
 def str_is_existing_dir(path: str) -> str:
+    """
+    >>> str_is_existing_dir('/')
+    '/'
+
+    >>> str_is_existing_dir('/home')
+    '/home'
+
+    >>> str_is_existing_dir('')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Given path is not an existing directory.
+
+    >>> str_is_existing_dir('/non/existing/dir')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Given path is not an existing directory.
+    """
     if not isdir(path):
         raise ArgumentTypeError("Given path is not an existing directory.")
     else:
@@ -64,6 +118,22 @@ def str_is_existing_dir(path: str) -> str:
 
 
 def str_is_existing_file(path: str) -> str:
+    """
+    >>> str_is_existing_file('/bin/bash')
+    '/bin/bash'
+    
+    >>> str_is_existing_file('/home')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Given path is not an existing file.
+    
+    >>> str_is_existing_file('')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Given path is not an existing file.
+    
+    >>> str_is_existing_file('/non/existing/file')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Given path is not an existing file.
+    """
     if not isfile(path):
         raise ArgumentTypeError("Given path is not an existing file.")
     else:
