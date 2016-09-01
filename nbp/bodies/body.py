@@ -1,7 +1,11 @@
 import numpy
 
-class Body():
-    pass # Will make Type Hinting work.
+from nbp.helpers.numpy import tuple_to_numpy, numpy_to_dict, dict_to_numpy
+
+
+class Body:
+    pass  # Ughh, type hinting
+
 
 class Body(object):
     def __init__(self, name: str, mass: float, radius: float, position: numpy.ndarray, velocity: numpy.ndarray):
@@ -9,7 +13,7 @@ class Body(object):
         self.position, self.velocity = position, velocity
 
     @classmethod
-    def from_tuple_parameters(self, name: str, mass: float, radius: float, position: tuple, velocity: tuple):
+    def from_tuple_parameters(cls, name: str, mass: float, radius: float, position: tuple, velocity: tuple) -> Body:
         """Build Body from position and velocity as tuple
         
         >>> planet1 = Body.from_tuple_parameters("Planet1", 100.0, 20.0, (1.0, 2.0, 3.0), (4.0, 5.0, 6.0))
@@ -44,13 +48,29 @@ class Body(object):
                [ True],
                [ True]], dtype=bool)
         """
-        numpy_position = self.__tuple_to_numpy(self, position)
-        numpy_velocity = self.__tuple_to_numpy(self, velocity)
+        return Body(
+            name,
+            mass,
+            radius,
+            tuple_to_numpy(position),
+            tuple_to_numpy(velocity)
+        )
 
-        return Body(name, mass, radius, numpy_position, numpy_velocity)
-        
-    def __tuple_to_numpy(self, t: tuple) -> numpy.ndarray:
-        """ How to test this private function!? """
-        return numpy.array([[t[0]],
-                            [t[1]],
-                            [t[2]]]).astype('float64')
+    def to_dict(self) -> dict:
+        return {
+            'name': self.name,
+            'mass': self.mass,
+            'radius': self.radius,
+            'position': numpy_to_dict(self.position),
+            'velocity': numpy_to_dict(self.velocity)
+        }
+
+    @staticmethod
+    def from_dict(dictionary):
+        return Body(
+            dictionary['name'],
+            dictionary['mass'],
+            dictionary['radius'],
+            dict_to_numpy(dictionary['position']),
+            dict_to_numpy(dictionary['velocity'])
+        )

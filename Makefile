@@ -1,4 +1,4 @@
-PY=python3
+PY=python3.5
 files=nbp/**/*.py
 module=nbp
 

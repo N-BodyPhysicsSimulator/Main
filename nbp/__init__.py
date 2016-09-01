@@ -1,9 +1,8 @@
 """ N-Body Physics simulator """
 
-from .bodies import Body
+from . import bodies
+from . import io
+from . import helpers
+from . import modifiers
+from .cli import Cli
 
-from .calculation_modifier import CalculationModifier
-
-from .io import InputProvider
-from .io import FileInputProvider
-from .io import CSVStartValueInputProvider

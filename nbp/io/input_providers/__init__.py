@@ -1,6 +1,5 @@
-""" InputProviders. Such as the CalculationInputProvider or the JSONInputProvider """
+""" InputProviders. Such as the JSONInputProvider """
 
 from .input_provider import InputProvider
-from .file_input_provider import FileInputProvider
-
-from .start_value_input_providers import CSVStartValueInputProvider
+from .dummy_input_provider import DummyInputProvider
+from .json_input_provider import JSONInputProvider
