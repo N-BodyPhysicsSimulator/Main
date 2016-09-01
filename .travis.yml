@@ -1,8 +1,9 @@
 language: python
 python: "3.5.1"
 before_install:
-  - sudo apt-get update -q
-  - sudo apt-get install -y bats
+  - sudo add-apt-repository ppa:duggan/bats --yes
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq bats
 install: make install-requirements 
 script: make test
 after_success: make codecov
