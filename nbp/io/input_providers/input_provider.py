@@ -1,4 +1,6 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, ABCMeta
+from types import GeneratorType
+
 
 class InputProvider(ABC):
     """InputProvider ABC. All InputProviders will extend this class
@@ -11,7 +13,17 @@ class InputProvider(ABC):
     ...     def get_body_states(): yield []
     >>> a = ExampleInputProvider()
     """
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self, args):
+        self.args = args
+    
     @abstractmethod
-    def get_body_states(self):
+    def get_body_states(self) -> GeneratorType:
         """ Method to receive bodies. Returns a generator. """
+        raise NotImplementedError()
+
+    @staticmethod
+    def get_cli_arguments() -> list:
         raise NotImplementedError()

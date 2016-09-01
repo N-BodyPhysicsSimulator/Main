@@ -1,50 +1,46 @@
 import argparse
-import queue
-
-from threading import Thread
 from multiprocessing import Pipe
+from threading import Thread
 
-from nbp.io.input_providers import DummyFileInputProvider
-from nbp.io.output_writers import CSVOutputWriter
-from nbp.io.output_writers import WSOutputWriter
+import nbp.io.output_writers
+from nbp.helpers.validation import int_greater_than_zero
 
-from nbp.io.output_writers import OutputWritingsManager
 
-from nbp.modifiers import CalculationModifier
+class Cli(object):
+    def __init__(self):
+        entities = {
+            'output_writers': nbp.io.output_writers,
+            'input_providers': nbp.io.input_providers,
+            'modifiers': nbp.modifiers
+        }
 
-class Cli:
-    __input_providers = {
-        'dummy': DummyFileInputProvider
-    }
+        for key, module in entities.items():
+            mirror = {}
 
-    __output_writers = {
-        'csv': CSVOutputWriter,
-        'ws': WSOutputWriter,
-    }
+            for _, entity in vars(module).items():
+                if hasattr(entity, 'entity_name'):
+                    mirror[entity.entity_name] = entity
 
-    __modifiers = {
-        'calculation': CalculationModifier
-    }
-    
-    def __init__(self, args):
-        self.__args = args
+            setattr(self, key, mirror)
+
+        self.__args = self.get_args()
 
     def start_application(self):
-        input_provider_class = self.__input_providers[self.__args.inputprovider]
+        input_provider_class = self.input_providers[self.__args.inputprovider]
 
-        input_provider = input_provider_class('')
+        input_provider = input_provider_class(vars(self.__args))
         generator = input_provider.get_body_states()
 
         pipes = []
 
         if self.__args.modifier:
             for modifier_name in self.__args.modifier:
-                generator = self.__modifiers[modifier_name](generator).get_generator()
+                generator = self.modifiers[modifier_name](generator).get_generator()
 
         for ow_name in self.__args.outputwriter:
             parent, child = Pipe()
 
-            ow = self.__output_writers[ow_name]
+            ow = self.output_writers[ow_name]
             Thread(target=ow, args=(child, vars(self.__args))).start()
 
             pipes.append(parent)
@@ -53,36 +49,45 @@ class Cli:
             for parent in pipes:
                 parent.send(state)
 
-    @staticmethod
-    def get_parser():
+    def get_args(self):
         parser = argparse.ArgumentParser(description='N-Body Physics Simulator')
 
-        parser.add_argument('--inputprovider', metavar='ip',
+        parser.add_argument('--inputprovider', '-i', metavar='ip',
                             type=str, help='Selection of Input Provider.',
-                            dest='inputprovider', required=True)
+                            dest='inputprovider', required=True,
+                            choices=list(self.input_providers.keys()))
 
-        parser.add_argument('--outputwriter', metavar='outputwriters', 
+        parser.add_argument('--outputwriter', '-o', metavar='outputwriter',
                             type=str, help='Selection of Output Writers.',
-                            dest='outputwriter', nargs='+', required=True)
+                            dest='outputwriter', nargs='+', required=True,
+                            choices=list(self.output_writers.keys()))
 
-        parser.add_argument('--modifier', metavar='modifiers', 
+        parser.add_argument('--delta-time', '-dt', metavar='seconds',
+                            type=int_greater_than_zero, help='Change in time.',
+                            dest='delta_time', required=True)
+
+        basic_args, _ = parser.parse_known_args()
+
+        parser.add_argument('--modifier', '-m', metavar='modifiers',
                             type=str, help='Selection of modifier(s).',
-                            dest='modifier', nargs='*')
+                            dest='modifier', nargs='*',
+                            choices=list(self.modifiers.keys()))
 
-        parser.add_argument('--port', metavar='port', 
-                            type=str, help='Port to run on, might be required.',
-                            dest='port')
+        max_group = parser.add_mutually_exclusive_group()
 
-        parser.add_argument('--path', metavar='path', 
-                            type=str, help='Path of output, might be required.',
-                            dest='path')
+        max_group.add_argument('--max-ticks', '-t', metavar='ticks',
+                               type=int_greater_than_zero, help='Max ticks to calculate.',
+                               dest='max_ticks')
 
-        parser.add_argument('--max-ticks', metavar='ticks', 
-                            type=str, help='Max ticks to calculate.',
-                            dest='max_ticks')
+        max_group.add_argument('--max-time', '-T', metavar='seconds',
+                               type=int_greater_than_zero, help='Max time to calculate.',
+                               dest='max_time')
 
-        parser.add_argument('--max-time', metavar='time', 
-                            type=str, help='Max time to calculate.',
-                            dest='max_ticks')
+        items = [self.input_providers.get(basic_args.inputprovider)]
+        items += [self.output_writers.get(key) for key in basic_args.outputwriter]
 
-        return parser
+        for item in items:
+            for argument_set in item.get_cli_arguments():
+                parser.add_argument(argument_set[0], **argument_set[1])
+
+        return parser.parse_args()

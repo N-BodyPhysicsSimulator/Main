@@ -2,6 +2,7 @@ import numpy
 
 from nbp.bodies import Body
 
+
 def distance_to(one_body: Body, other_body: Body) -> numpy.ndarray:
     """Takes two instances of a bodies and calculates the distance.
 
@@ -27,6 +28,7 @@ def distance_to(one_body: Body, other_body: Body) -> numpy.ndarray:
     """
     return other_body.position - one_body.position
 
+
 def absolute_distance_to_one(one_body: Body, other_body: Body) -> float:
     """Takes two instances of a bodies and calculates the absolute distance.
     
@@ -44,6 +46,7 @@ def absolute_distance_to_one(one_body: Body, other_body: Body) -> float:
     384400006.34337604
     """
     return numpy.linalg.norm(distance_to(one_body, other_body))
+
 
 def acceleration_to_one(one_body: Body, other_body: Body) -> numpy.ndarray:
     """Return acceleration in x, y, z directions.
@@ -67,9 +70,10 @@ def acceleration_to_one(one_body: Body, other_body: Body) -> numpy.ndarray:
     distance = absolute_distance_to_one(one_body, other_body)
 
     force = calculate_force(one_body.mass, other_body.mass, distance)
-    forceratio = force / distance
+    force_ratio = force / distance
 
-    return (distance_vector * forceratio) / one_body.mass
+    return (distance_vector * force_ratio) / one_body.mass
+
 
 def acceleration_to_all(one_body: Body, bodies: [Body]) -> numpy.ndarray:
     """ Return the acceleration in vectors to alll other bodies
@@ -97,6 +101,7 @@ def acceleration_to_all(one_body: Body, bodies: [Body]) -> numpy.ndarray:
 
     return total_acceleration
 
+
 def calculate_position(body: Body, delta_time: float) -> numpy.ndarray:
     """ Calculates a new position for a new tick
     
@@ -110,6 +115,7 @@ def calculate_position(body: Body, delta_time: float) -> numpy.ndarray:
            [ -3. ]])
     """
     return body.position + (delta_time * body.velocity)
+
 
 def calculate_velocity(one_body: Body, delta_time: float, other_bodies: [Body]) -> None:
     """ Calculates new velocity for a new tick.
@@ -139,6 +145,7 @@ def calculate_velocity(one_body: Body, delta_time: float, other_bodies: [Body]) 
     """
 
     return one_body.velocity + (delta_time * acceleration_to_all(one_body, other_bodies))
+
 
 def merge_bodies(one_body: Body, other_body: Body) -> Body:
     """ merges one body with a second body. Important note: This function doesn't delete any body!
@@ -181,7 +188,7 @@ def merge_bodies(one_body: Body, other_body: Body) -> Body:
     mass = one_body.mass + other_body.mass
     position = (one_body.position * one_body.mass + other_body.position * other_body.mass) / mass
     velocity = (one_body.velocity * one_body.mass + other_body.velocity * other_body.mass) / mass
-    radius = ((one_body.radius ** 3) + (other_body.radius ** 3)) ** (1/3)
+    radius = ((one_body.radius ** 3) + (other_body.radius ** 3)) ** (1 / 3)
 
     if one_body.mass >= other_body.mass:
         name = one_body.mass
@@ -190,8 +197,10 @@ def merge_bodies(one_body: Body, other_body: Body) -> Body:
 
     return Body(name, mass, radius, position, velocity)
 
+
 def calculate_force(one_mass, other_mass, distance):
     return (6.67408 * (10 ** -11)) * ((one_mass * other_mass) / (distance ** 2))
+
 
 def minimal_distance(bodies: [Body]) -> float:
     """Return the smallest distance between all bodies.

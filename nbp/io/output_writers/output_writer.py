@@ -1,12 +1,19 @@
-from abc import abstractmethod, ABCMeta
+from abc import abstractmethod, ABCMeta, ABC
 
-class OutputWriter(object):
+
+class OutputWriter(ABC):
     __metaclass__ = ABCMeta
+
+    def __init__(self, pipe, args):
+        try:
+            self.tick(pipe.recv, args)
+        except EOFError:
+            print("EOFError: quitting Output Writer")
 
     @abstractmethod
     def tick(self, body_state, args):
-        raise Exception('Method tick should be implemented.')
+        raise NotImplementedError()
 
     @staticmethod
-    def get_validation_schema():
-        raise Exception('Method get_validation_schema should be implemented.')
+    def get_cli_arguments() -> list:
+        raise NotImplementedError()
