@@ -9,6 +9,7 @@ pylint: pylint-src
 
 test:
 	$(PY) -m pytest $(module) --doctest-modules
+	bats tests/bats
 
 build: install-requirements pylint test
 
