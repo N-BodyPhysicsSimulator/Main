@@ -26,6 +26,8 @@ class Cli(object):
         self.__args = self.get_args()
 
     def start_application(self):
+        max_ticks, max_time = self.__args.max_ticks, self.__args.max_time
+
         input_provider_class = self.input_providers[self.__args.inputprovider]
 
         input_provider = input_provider_class(vars(self.__args))
@@ -45,9 +47,22 @@ class Cli(object):
 
             pipes.append(parent)
 
+        for pipe in pipes:
+            pipe.send({ 'type': 'start' })
+
         for state in generator:
-            for parent in pipes:
-                parent.send(state)
+            if max_ticks and max_ticks <= state.ticks:
+                self.close_application(pipes)
+            elif max_time and max_time <= state.time:
+                self.close_application(pipes)
+            else:
+                for pipe in pipes:
+                    pipe.send({
+                        'type': 'data',
+                        'data': state
+                    })
+
+        self.close_application(pipes)
 
     def get_args(self):
         parser = argparse.ArgumentParser(description='N-Body Physics Simulator')
@@ -91,3 +106,9 @@ class Cli(object):
                 parser.add_argument(argument_set[0], **argument_set[1])
 
         return parser.parse_args()
+
+    def close_application(self, pipes):
+        for pipe in pipes:
+            pipe.send({ 'type': 'end' })
+
+        exit(0)

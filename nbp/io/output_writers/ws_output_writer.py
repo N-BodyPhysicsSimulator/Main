@@ -21,18 +21,47 @@ class WSOutputWriter(OutputWriter):
                     'dest': 'ws_port',
                     'required': True
                 }
+            ),
+            (
+                '--ws-host',
+                {
+                    'metavar': '<host>',
+                    'type': str,
+                    'help': 'Host to run on.',
+                    'dest': 'ws_host'
+                }
             )
         ]
-    
-    def tick(self, get_state, args):
-        async def server(client, _):
-            while True:
-                await client.send(get_state().to_json())
 
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+    def exit(self):
+        for client in self.clients:
+            client.close()
+
+        loop = asyncio.get_event_loop()
+
+        loop.stop()
+        loop.close()
+    
+    def handle(self, generator, args):
+        self.clients = []
+
+        if args.get('ws_host'):
+            host = args.get('ws_host')
+        else:
+            host = 'localhost'
+
+        async def server(client, _):
+            self.clients.append(client)
+
+            for state in generator:
+                await client.send(state.to_json())
+
+        asyncio.set_event_loop(
+            asyncio.new_event_loop()
+        )
 
         asyncio.get_event_loop().run_until_complete(
-            websockets.serve(server, 'localhost', args.get('ws_port'))
+            websockets.serve(server, host, args.get('ws_port'))
         )
+
         asyncio.get_event_loop().run_forever()

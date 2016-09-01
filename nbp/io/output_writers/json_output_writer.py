@@ -20,11 +20,11 @@ class JSONOutputWriter(OutputWriter):
             )
         ]
 
-    def tick(self, get_state, args):
+    def handle(self, generator, args):
         path = args.get('json_output_path')
 
         with open(path, "a") as f:
-            while True:
+            for state in generator:
                 f.write(
-                    get_state().to_json() + "\n"
+                    state.to_json() + "\n"
                 )

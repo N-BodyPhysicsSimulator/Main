@@ -23,15 +23,15 @@ class HTTPOutputWriter(OutputWriter):
             )
         ]
 
-    def tick(self, get_state, args):
+    def handle(self, generator, args):
         monkey.patch_all()
 
         @bottle.route('/')
         def default():
             bottle.response.content_type = "text/plain"
 
-            while True:
-                yield get_state().to_json()
+            for state in generator:
+                yield state.to_json()
                 yield "\n"
 
         bottle.run(port=args.get("http_port"), server="gevent")

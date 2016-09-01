@@ -23,12 +23,10 @@ class CSVOutputWriter(OutputWriter):
             )
         ]
 
-    def tick(self, get_state, args):
+    def handle(self, generator, args):
         path = args.get('path')
 
-        while True:
-            state = get_state()
-
+        for state in generator:
             for body in state.bodies:
                 filepath = os.path.join(path, (body.name + '.csv'))
 
