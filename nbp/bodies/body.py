@@ -57,6 +57,27 @@ class Body(object):
         )
 
     def to_dict(self) -> dict:
+        """
+        >>> dictionary = Body.from_tuple_parameters(
+        ...   'Strawberry',
+        ...   123.456,
+        ...   789.123,
+        ...   (1.1, 2.2, 3.3),
+        ...   (9.9, 8.8, 7.7)
+        ... ).to_dict()
+        >>> dictionary.get('name')
+        'Strawberry'
+        >>> dictionary.get('mass')
+        123.456
+        >>> dictionary.get('radius')
+        789.123
+        >>> float(dictionary.get('position').get('x'))
+        1.1
+        >>> float(dictionary.get('velocity').get('z'))
+        7.7
+
+        :return: dict
+        """
         return {
             'name': self.name,
             'mass': self.mass,
@@ -67,6 +88,31 @@ class Body(object):
 
     @staticmethod
     def from_dict(dictionary):
+        """
+        >>> from nbp.helpers.numpy import numpy_to_list
+
+        >>> dictionary = {
+        ...   'name': 'Apple',
+        ...   'mass': 12.34,
+        ...   'radius': 56.78,
+        ...   'position': { 'x': 1.9, 'y': 2.8, 'z': 3.7 },
+        ...   'velocity': { 'x': 4.6, 'y': 5.5, 'z': 6.4 }
+        ... }
+        >>> body = Body.from_dict(dictionary)
+        >>> body.name
+        'Apple'
+        >>> body.mass
+        12.34
+        >>> body.radius
+        56.78
+        >>> [float(v) for v in numpy_to_list(body.position)]
+        [1.9, 2.8, 3.7]
+        >>> [float(v) for v in numpy_to_list(body.velocity)]
+        [4.6, 5.5, 6.4]
+
+        :param dictionary: dict
+        :return: Body
+        """
         return Body(
             dictionary['name'],
             dictionary['mass'],

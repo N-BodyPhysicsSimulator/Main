@@ -9,9 +9,23 @@ class BodyState(object):
 
 class BodyState(object):
     def __init__(self, bodies: [Body], ticks: int, time: float, delta_time: float):
-        self.bodies, self.ticks, self.time, self.delta_time = bodies, ticks, time, delta_time
+        self.bodies, self.ticks = bodies, int(ticks)
+        self.time, self.delta_time = float(time), float(delta_time)
 
     def to_dict(self) -> dict:
+        """
+        >>> state = BodyState([], 10, 100, 2).to_dict()
+        >>> state.get('ticks')
+        10
+        >>> state.get('time')
+        100.0
+        >>> state.get('delta_time')
+        2.0
+        >>> state.get('bodies')
+        []
+
+        :return: dict
+        """
         return {
             'ticks': self.ticks,
             'time': self.time,
@@ -24,6 +38,24 @@ class BodyState(object):
 
     @staticmethod
     def from_dict(dictionary: dict) -> BodyState:
+        """
+        >>> state = BodyState.from_dict({
+        ...   'ticks': 10,
+        ...   'time': 100,
+        ...   'delta_time': 2.0,
+        ...   'bodies': []
+        ... })
+        >>> state.ticks
+        10
+        >>> state.time
+        100.0
+        >>> state.delta_time
+        2.0
+        >>> state.bodies
+        []
+
+        :return: dict
+        """
         return BodyState(
             [Body.from_dict(body) for body in dictionary['bodies']],
             dictionary['ticks'],
