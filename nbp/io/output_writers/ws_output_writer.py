@@ -28,7 +28,8 @@ class WSOutputWriter(OutputWriter):
                     'metavar': '<host>',
                     'type': str,
                     'help': 'Host to run on.',
-                    'dest': 'ws_host'
+                    'dest': 'ws_host',
+                    'default': 'localhost'
                 }
             )
         ]
@@ -45,11 +46,6 @@ class WSOutputWriter(OutputWriter):
     def handle(self, generator, args):
         self.clients = []
 
-        if args.get('ws_host'):
-            host = args.get('ws_host')
-        else:
-            host = 'localhost'
-
         async def server(client, _):
             self.clients.append(client)
 
@@ -61,7 +57,7 @@ class WSOutputWriter(OutputWriter):
         )
 
         asyncio.get_event_loop().run_until_complete(
-            websockets.serve(server, host, args.get('ws_port'))
+            websockets.serve(server, args.get('ws_host'), args.get('ws_port'))
         )
 
         asyncio.get_event_loop().run_forever()
