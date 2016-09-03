@@ -81,7 +81,6 @@ class Cli(object):
                             type=int_greater_than_zero, help='Change in time.',
                             dest='delta_time', required=True)
 
-        basic_args, _ = parser.parse_known_args()
 
         parser.add_argument('--modifier', '-m', metavar='modifiers',
                             type=str, help='Selection of modifier(s).',
@@ -97,6 +96,8 @@ class Cli(object):
         max_group.add_argument('--max-time', '-T', metavar='seconds',
                                type=int_greater_than_zero, help='Max time to calculate.',
                                dest='max_time')
+
+        basic_args, _ = parser.parse_known_args()
 
         items = [self.input_providers.get(basic_args.inputprovider)]
         items += [self.output_writers.get(key) for key in basic_args.outputwriter]
