@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod, ABCMeta
 from types import GeneratorType
+from typing import Iterator
+
+from nbp.bodies import BodyState
 
 
 class InputProvider(ABC):
@@ -20,7 +23,7 @@ class InputProvider(ABC):
         self.args = args
     
     @abstractmethod
-    def get_body_states(self) -> GeneratorType:
+    def get_generator(self) -> Iterator[BodyState]:
         """ Method to receive bodies. Returns a generator. """
         raise NotImplementedError()
 

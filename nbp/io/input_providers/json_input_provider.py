@@ -1,5 +1,6 @@
 import json
 from types import GeneratorType
+from typing import Iterator
 
 from nbp.bodies import Body
 from nbp.bodies import BodyState
@@ -25,7 +26,7 @@ class JSONInputProvider(InputProvider):
             )
         ]
 
-    def get_body_states(self) -> GeneratorType:
+    def get_generator(self) -> Iterator[BodyState]:
         path = self.args.get('json_input_path')
 
         with open(path) as f:
