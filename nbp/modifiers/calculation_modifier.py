@@ -1,11 +1,10 @@
+from typing import Iterator
+
 from nbp.bodies import BodyState
-from nbp.helpers.physics import absolute_distance_to_one
+from nbp.decorators import entity
 from nbp.helpers.physics import calculate_position
 from nbp.helpers.physics import calculate_velocity
-from nbp.helpers.physics import merge_bodies
 from nbp.modifiers import Modifier
-
-from nbp.decorators import entity
 
 
 @entity("calculation")
@@ -20,6 +19,23 @@ class CalculationModifier(Modifier):
         # state = self.__merge(state)
 
         return state
+
+    def get_generator(self) -> Iterator[BodyState]:
+        """
+        Only modificate if last Body from generator
+
+        :return: Iterator[BodyState]
+        """
+        try:
+            while True:
+                state = next(self.generator)
+                yield state
+        except StopIteration:
+            pass
+        finally:
+            while True:
+                state = self.modificate(state)
+                yield state
 
     def __update_position(self, state):
         for i, body in enumerate(state.bodies):
