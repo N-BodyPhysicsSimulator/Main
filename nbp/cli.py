@@ -53,7 +53,7 @@ class Cli(object):
         for state in generator:
             if max_ticks and max_ticks <= state.ticks:
                 self.close_application(pipes)
-            elif max_time and max_time <= state.time:
+            elif max_time and max_time < state.time:
                 self.close_application(pipes)
             else:
                 for pipe in pipes:
