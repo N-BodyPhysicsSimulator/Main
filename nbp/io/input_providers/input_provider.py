@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod, ABCMeta
 from types import GeneratorType
+from typing import Iterator
+
+from nbp.bodies import BodyState
 
 
 class InputProvider(ABC):
@@ -8,9 +11,9 @@ class InputProvider(ABC):
     >>> a = ExampleInputProvider({})
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
-    TypeError: Can't instantiate abstract class ExampleInputProvider with abstract methods get_body_states
+    TypeError: Can't instantiate abstract class ExampleInputProvider with abstract methods get_generator
     >>> class ExampleInputProvider(InputProvider):
-    ...     def get_body_states(): yield []
+    ...     def get_generator(): yield []
     >>> a = ExampleInputProvider({})
     """
 
@@ -20,7 +23,7 @@ class InputProvider(ABC):
         self.args = args
     
     @abstractmethod
-    def get_body_states(self) -> GeneratorType:
+    def get_generator(self) -> Iterator[BodyState]:
         """ Method to receive bodies. Returns a generator. """
         raise NotImplementedError()
 

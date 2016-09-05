@@ -117,7 +117,7 @@ def calculate_position(body: Body, delta_time: float) -> numpy.ndarray:
     return body.position + (delta_time * body.velocity)
 
 
-def calculate_velocity(one_body: Body, delta_time: float, other_bodies: [Body]) -> None:
+def calculate_velocity(one_body: Body, delta_time: float, other_bodies: [Body]) -> numpy.ndarray:
     """ Calculates new velocity for a new tick.
 
         This test is based on the output of the function we wrote the test for.

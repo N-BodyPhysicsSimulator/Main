@@ -16,7 +16,9 @@
 
 For running the simulator, Python `3.5.x` or higher is required.
 
-### Linux
+Not tested on `Mac OS X`/`macOS` or `Microsoft Windows`.
+
+### Linux / Mac OS X
 
 #### Installation
 

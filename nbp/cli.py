@@ -31,7 +31,7 @@ class Cli(object):
         input_provider_class = self.input_providers[self.__args.inputprovider]
 
         input_provider = input_provider_class(vars(self.__args))
-        generator = input_provider.get_body_states()
+        generator = input_provider.get_generator()
 
         pipes = []
 
@@ -53,7 +53,7 @@ class Cli(object):
         for state in generator:
             if max_ticks and max_ticks <= state.ticks:
                 self.close_application(pipes)
-            elif max_time and max_time <= state.time:
+            elif max_time and max_time < state.time:
                 self.close_application(pipes)
             else:
                 for pipe in pipes:
