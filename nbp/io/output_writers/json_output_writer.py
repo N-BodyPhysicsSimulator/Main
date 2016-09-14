@@ -1,5 +1,5 @@
 from nbp.decorators import entity
-from nbp.helpers.validation import str_is_existing_file
+from nbp.helpers.validation import dirname_is_existing_dir
 from nbp.io.output_writers.output_writer import OutputWriter
 
 
@@ -12,7 +12,7 @@ class JSONOutputWriter(OutputWriter):
                 '--json-output-file',
                 {
                     'metavar': 'path',
-                    'type': str_is_existing_file,
+                    'type': dirname_is_existing_dir,
                     'help': 'Path to JSON file.',
                     'dest': 'json_output_path',
                     'required': True

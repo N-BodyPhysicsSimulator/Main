@@ -34,10 +34,14 @@ class Cli(object):
         generator = input_provider.get_generator()
 
         pipes = []
+        
+        bundle = ModifierBundle()
 
         if self.__args.modifier:
             for modifier_name in self.__args.modifier:
-                generator = self.modifiers[modifier_name](generator).get_generator()
+                bundle.add_modifier(self.modifiers[modifier_name]())
+                
+            generator = bundle.get_generator(generator)
 
         for ow_name in self.__args.outputwriter:
             parent, child = Pipe()

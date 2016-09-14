@@ -3,7 +3,7 @@ from typing import Iterator
 
 from nbp.bodies import BodyState
 from nbp.decorators import entity
-from nbp.helpers.validation import str_is_existing_file
+from nbp.helpers.validation import dirname_is_existing_dir
 from nbp.io.input_providers import InputProvider
 
 
@@ -16,7 +16,7 @@ class CSVInputProvider(InputProvider):
                 '--csv-input-file',
                 {
                     'metavar': 'path',
-                    'type': str_is_existing_file,
+                    'type': dirname_is_existing_dir,
                     'help': 'Path to CSV file.',
                     'dest': 'csv_input_path',
                     'required': True

@@ -138,3 +138,24 @@ def str_is_existing_file(path: str) -> str:
         raise ArgumentTypeError("Given path is not an existing file.")
     else:
         return path
+
+def dirname_is_existing_dir(path: str) -> str:
+    """
+    >>> import tempfile
+
+    >>> with tempfile.TemporaryFile() as f:
+    ...     dirname_is_existing_dir(f.name) == f.name
+    True
+    
+    >>> dirname_is_existing_dir('')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Dirname of path is not an existing directory.
+    
+    >>> dirname_is_existing_dir('/non/existing/dir')
+    Traceback (most recent call last):
+    argparse.ArgumentTypeError: Dirname of path is not an existing directory.
+    """
+    if not isdir(basename(path)):
+        raise ArgumentTypeError("Dirname of path is not an existing directory.")
+    else:
+        return path
