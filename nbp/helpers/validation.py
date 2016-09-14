@@ -68,18 +68,15 @@ def int_is_open_port(port: int) -> int:
 
 def str_is_existing_path(path: str) -> str:
     """
-    >>> str_is_existing_path('/')
-    '/'
+    >>> import tempfile
 
-    >>> str_is_existing_path('/home')
-    '/home'
+    >>> with tempfile.TemporaryFile() as f:
+    ...     str_is_existing_file(f.name) == f.name
+    True
 
-    >>> str_is_existing_path('/bin/bash')
-    '/bin/bash'
-    
-    >>> str_is_existing_path('')
-    Traceback (most recent call last):
-    argparse.ArgumentTypeError: Given path is not an existing file or directory.
+    >>> with tempfile.TemporaryDirectory() as path:
+    ...     str_is_existing_path(path) == path
+    True
 
     >>> str_is_existing_path('')
     Traceback (most recent call last):
@@ -97,11 +94,11 @@ def str_is_existing_path(path: str) -> str:
 
 def str_is_existing_dir(path: str) -> str:
     """
-    >>> str_is_existing_dir('/')
-    '/'
+    >>> import tempfile
 
-    >>> str_is_existing_dir('/home')
-    '/home'
+    >>> with tempfile.TemporaryDirectory() as path:
+    ...     str_is_existing_path(path) == path
+    True
 
     >>> str_is_existing_dir('')
     Traceback (most recent call last):
@@ -119,8 +116,11 @@ def str_is_existing_dir(path: str) -> str:
 
 def str_is_existing_file(path: str) -> str:
     """
-    >>> str_is_existing_file('/bin/bash')
-    '/bin/bash'
+    >>> import tempfile
+
+    >>> with tempfile.TemporaryFile() as f:
+    ...     str_is_existing_file(f.name) == f.name
+    True
     
     >>> str_is_existing_file('/home')
     Traceback (most recent call last):
