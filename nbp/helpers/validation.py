@@ -155,7 +155,7 @@ def dirname_is_existing_dir(path: str) -> str:
     Traceback (most recent call last):
     argparse.ArgumentTypeError: Dirname of path is not an existing directory.
     """
-    if isdir(dirname(path)):
+    if isdir(dirname(str(path))):
         return path
     else:
         raise ArgumentTypeError("Dirname of path is not an existing directory.")
