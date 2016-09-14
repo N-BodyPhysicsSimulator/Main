@@ -1,5 +1,5 @@
 from argparse import ArgumentTypeError
-from os.path import isfile, isdir
+from os.path import isfile, isdir, dirname
 from socket import socket, AF_INET, SOCK_STREAM
 from types import FunctionType
 
@@ -155,7 +155,7 @@ def dirname_is_existing_dir(path: str) -> str:
     Traceback (most recent call last):
     argparse.ArgumentTypeError: Dirname of path is not an existing directory.
     """
-    if not isdir(basename(path)):
+    if not isdir(dirname(path)):
         raise ArgumentTypeError("Dirname of path is not an existing directory.")
     else:
         return path

@@ -1,7 +1,7 @@
 from nbp.modifiers import Modifier
 
 class ModifierBundle(object):
-    def __init__(self, modifiers=[]: [Modifier]):
+    def __init__(self, modifiers=[]):
         self.__modifiers = modifiers
     
     def add_modifier(self, modifier: Modifier):
