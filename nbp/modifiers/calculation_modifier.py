@@ -4,6 +4,7 @@ from nbp.bodies import BodyState
 from nbp.decorators import entity
 from nbp.helpers.physics import calculate_position
 from nbp.helpers.physics import calculate_velocity
+from nbp.helpers.physics import get_delta_time
 from nbp.modifiers import Modifier
 
 
@@ -48,3 +49,6 @@ class CalculationModifier(Modifier):
             state.bodies[i].velocity = calculate_velocity(body, state.delta_time, state.bodies)
 
         return state
+    
+    def __update_delta_time(self, state):
+        state.delta_time = get_delta_time(state.bodies, state.time_settings)
