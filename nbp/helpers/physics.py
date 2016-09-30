@@ -246,3 +246,88 @@ def minimal_distance(bodies: [Body]) -> float:
                 smallest_distance = distance
 
     return smallest_distance
+
+
+def get_delta_time(bodies, time_settings):
+    """ Changes delta time based on the distance between bodies.
+    Takes a dictionary (and bodies) from the state in the form off {'time': [INSERT TIME ZONES IN THIS LIST], 'radius': [INSERT RADIA IN THIS LIST]}
+    And returns the appropiate delta time based on the minimal_distance.
+    >>> time_settings = {'time': [3, 2, 4, 1], 'radius': [200, 300, 100, 400]}
+    >>> velocity = tuple_to_numpy(0, 0, 0)
+    >>> body1 = Body('body1', 1, 100, np.array([0, 0, 0]), velocity)
+    >>> body2 = Body('body2', 1, 100, np.array([0, 99, 0]), velocity))
+    >>> bodies = [body1, body2]
+    >>> get_delta_time(bodies, time_settings)
+    1
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy(0, 146.32, 0), velocity)
+    >>> bodies = [body1, body2]
+    >>> calculator.bodies = bodies
+    >>> get_delta_time(bodies, time_settings)
+    2
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy(0, 200, 0), velocity)
+    >>> bodies = [body1, body2]
+    >>> calculator.bodies = bodies
+    >>> get_delta_time(bodies, time_settings)
+    2
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy(0, 201, 0), velocity)
+    >>> bodies = [body1, body2]
+    >>> calculator.bodies = bodies
+    >>> get_delta_time(bodies, time_settings)
+    3
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy(0, 314, 0), velocity)
+    >>> bodies = [body1, body2]
+    >>> calculator.bodies = bodies
+    >>> get_delta_time(bodies, time_settings)
+    4
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy(0, 403, 0), velocity)
+    >>> bodies = [body1, body2]
+    >>> calculator.bodies = bodies
+    >>> get_delta_time(bodies, time_settings)
+    4
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy(0, -152100000000, 0), velocity)
+    >>> bodies = [body1, body2]
+    >>> calculator.bodies = bodies
+    >>> get_delta_time(bodies, time_settings)
+    4
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy(0, -153, 0), velocity)
+    >>> bodies = [body1, body2]
+    >>> calculator.bodies = bodies
+    >>> get_delta_time(bodies, time_settings)
+    2
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy(0, 3, 0), velocity))
+    >>> bodies = [body1, body2]
+    >>> get_delta_time(bodies, time_settings)
+    1
+    """
+    
+    time_settings['time'] = time_settings['time'].sort()
+    time_settings['radius'] = time_settings['radius'].sort()
+    
+    minimal_distance = minimal_distance(bodies)
+    
+    
+    new_delta_time = min(time_settings['time'])
+    
+    for zone_i, _ in enumerate(time_settings['time']):
+        zones = {
+            'upper': {
+                'index': zone_i
+            },
+            'lower': {
+                'index': zone_i - 1
+            }
+        }
+
+        for zone_type in ['upper', 'lower']:
+            i = zones[zone_type]['index']
+
+            for zone_input in ['radius', 'time']:
+                zones[zone_type][zone_input] = self.time_zones[zone_input][i]
+
+        if ((zones['upper']['index'] == 0 and minimal_distance < zones['upper']['radius'])
+                or (zones['lower']['radius'] < minimal_distance and zones['upper']['radius'] >= minimal_distance)
+                or (zones['upper']['radius'] < minimal_distance)): # We could combine these 3 if-statements
+            new_delta_time = zones['upper']['time']
+    
+    return float(new_delta_time)
+
