@@ -154,8 +154,23 @@ def dirname_is_existing_dir(path: str) -> str:
     Traceback (most recent call last):
     argparse.ArgumentTypeError: Dirname of path is not an existing directory.
     """
-
+    
     if isdir(dirname(path)):
         return path
     else:
         raise ArgumentTypeError("Dirname of path is not an existing directory.")
+
+def change_delta_time_settings_to_tuples(value: str) -> list:
+    """
+    Value has format <distance1>,<distance2>:<time1>,<time2>
+    
+    >>> change_delta_time_settings_to_tuples("500,300,90:2,1,4")
+    ([90, 300, 500], [1, 2, 4])
+    """
+    return tuple(
+        [
+            sorted(l) for l in [
+                [int(v) for v in l.split(',')] for l in value.split(':')
+            ]
+        ]
+    )

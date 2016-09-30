@@ -5,7 +5,7 @@ from typing import Iterator
 from nbp.bodies import Body
 from nbp.bodies import BodyState
 from nbp.decorators import entity
-from nbp.helpers.validation import dirname_is_existing_dir
+from nbp.helpers.validation import str_is_existing_file
 from nbp.io.input_providers import InputProvider
 
 
@@ -15,10 +15,10 @@ class JSONInputProvider(InputProvider):
     def get_cli_arguments() -> list:
         return [
             (
-                '--json-input-file',
+                '--input-file',
                 {
                     'metavar': 'path',
-                    'type': dirname_is_existing_dir,
+                    'type': str_is_existing_file,
                     'help': 'Path to JSON file.',
                     'dest': 'json_input_path',
                     'required': True

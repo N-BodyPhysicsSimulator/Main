@@ -10,6 +10,10 @@ from nbp.modifiers import Modifier
 
 @entity("calculation")
 class CalculationModifier(Modifier):
+    @staticmethod
+    def get_cli_arguments() -> list:
+        return []
+
     def modificate(self, state: BodyState) -> BodyState:
         """Calculates one tick of the simulator"""
         state.ticks += 1
@@ -20,23 +24,6 @@ class CalculationModifier(Modifier):
         # state = self.__merge(state)
 
         return state
-
-    def get_generator(self) -> Iterator[BodyState]:
-        """
-        Only modificate if last Body from generator
-
-        :return: Iterator[BodyState]
-        """
-        try:
-            while True:
-                state = next(self.generator)
-                yield state
-        except StopIteration:
-            pass
-        finally:
-            while True:
-                state = self.modificate(state)
-                yield state
 
     def __update_position(self, state):
         for i, body in enumerate(state.bodies):
@@ -49,6 +36,3 @@ class CalculationModifier(Modifier):
             state.bodies[i].velocity = calculate_velocity(body, state.delta_time, state.bodies)
 
         return state
-    
-    def __update_delta_time(self, state):
-        state.delta_time = get_delta_time(state.bodies, state.time_settings)
