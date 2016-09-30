@@ -11,8 +11,7 @@ class BodyState(object):
     def __init__(self, bodies: [Body], ticks: int, time: float, delta_time: float):
         self.bodies, self.ticks = bodies, int(ticks)
         self.time, self.delta_time = float(time), float(delta_time)
-        self.time_settings = {'time': [],'radius': []}#All the radi must be ALWAYS be positive and all the time must be either all negative or all positive.
-
+        
     def to_dict(self) -> dict:
         """
         >>> state = BodyState([], 10, 100, 2).to_dict()
