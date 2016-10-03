@@ -4,6 +4,7 @@ from threading import Thread
 
 import nbp.io.output_writers
 from nbp.helpers.validation import int_greater_than_zero
+from nbp.modifiers import ModifierBundle
 
 
 class Cli(object):
@@ -39,7 +40,7 @@ class Cli(object):
 
         if self.__args.modifier:
             for modifier_name in self.__args.modifier:
-                bundle.add_modifier(self.modifiers[modifier_name]())
+                bundle.add_modifier(self.modifiers[modifier_name](self.__args))
                 
             generator = bundle.get_generator(generator)
 
@@ -105,6 +106,7 @@ class Cli(object):
 
         items = [self.input_providers.get(basic_args.inputprovider)]
         items += [self.output_writers.get(key) for key in basic_args.outputwriter]
+        items += [self.modifiers.get(key) for key in basic_args.modifier or []]
 
         for item in items:
             for argument_set in item.get_cli_arguments():
