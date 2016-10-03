@@ -26,6 +26,16 @@ def distance_to(one_body: Body, other_body: Body) -> numpy.ndarray:
     array([[ 0.],
            [ 0.],
            [ 0.]])
+
+    >>> from nbp.helpers.numpy import tuple_to_numpy
+    >>> import numpy as np
+    >>> velocity = tuple_to_numpy((0, 0, 0))
+    >>> one = Body('saturn', 100, 100, np.array([[0.], [0.], [0.]]), velocity)
+    >>> two = Body('neptune', 100, 100, tuple_to_numpy((0, 146.2, 0)), velocity)
+    >>> distance_to(one, two)
+    array([[   0. ],
+           [ 146.2],
+           [   0. ]])
     """
     return other_body.position - one_body.position
 
@@ -45,6 +55,15 @@ def absolute_distance_to_one(one_body: Body, other_body: Body) -> float:
     >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100.0, (1.496*(10**11), -384.4*(10**6), -69834), (1050, 29290, 0))
     >>> absolute_distance_to_one(moon, earth)
     384400006.34337604
+
+    >>> from nbp.helpers.numpy import tuple_to_numpy
+    >>> import numpy as np
+    >>> velocity = tuple_to_numpy((0, 0, 0))
+    >>> one = Body('saturn', 100, 100, np.array([[0.], [0.], [0.]]), velocity)
+    >>> two = Body('neptune', 100, 100, tuple_to_numpy((0, 146.2, 0)), velocity)
+    >>> dist = absolute_distance_to_one(one, two)
+    >>> float("{0:.1f}".format(dist))
+    146.2
     """
     return numpy.linalg.norm(distance_to(one_body, other_body))
 
@@ -234,6 +253,15 @@ def minimal_distance(bodies: [Body]) -> float:
     >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
     >>> minimal_distance([sun, earth, jupiter, saturn, neptune])
     152099999999.3627
+
+    >>> from nbp.helpers.numpy import tuple_to_numpy
+    >>> import numpy as np
+    >>> velocity = tuple_to_numpy((0, 0, 0))
+    >>> one = Body('saturn', 100, 100, np.array([[0.], [0.], [0.]]), velocity)
+    >>> two = Body('neptune', 100, 100, tuple_to_numpy((0, 146.2, 0)), velocity)
+    >>> dist = minimal_distance([one, two])
+    >>> float("{0:.1f}".format(dist))
+    146.2
     """
     smallest_distance = 0.0
 
@@ -260,11 +288,12 @@ def get_delta_time(bodies: [Body], settings: tuple) -> float:
     
     >>> time_settings = ([1, 2, 3, 4], [100, 200, 300, 400])
     >>> velocity = tuple_to_numpy((0, 0, 0))
-    >>> body1 = Body('body1', 1, 100, np.array([0, 0, 0]), velocity)
-    >>> body2 = Body('body2', 1, 100, np.array([0, 99, 0]), velocity)
+    >>> body1 = Body('body1', 1, 100, np.array([[0.], [0.], [0.]]), velocity)
+    >>> body2 = Body('body2', 1, 100, np.array([[0.], [99.], [0.]]), velocity)
     >>> bodies = [body1, body2]
     >>> get_delta_time(bodies, time_settings)
     1
+    >>> body1 = Body('body1', 1, 100, np.array([[0.], [0.], [0.]]), velocity)
     >>> body2 = Body('body2', 1, 100, tuple_to_numpy((0, 146.32, 0)), velocity)
     >>> bodies = [body1, body2]
     >>> get_delta_time(bodies, time_settings)
@@ -293,35 +322,24 @@ def get_delta_time(bodies: [Body], settings: tuple) -> float:
     >>> bodies = [body1, body2]
     >>> get_delta_time(bodies, time_settings)
     2
-    >>> body2 = Body('body2', 1, 100, tuple_to_numpy((0, 3, 0)), velocity))
+    >>> body2 = Body('body2', 1, 100, tuple_to_numpy((0, 3, 0)), velocity)
     >>> bodies = [body1, body2]
     >>> get_delta_time(bodies, time_settings)
     1
     """
     time_settings, radius_settings = settings
+    time_settings = sorted(time_settings)
+    radius_settings = sorted(radius_settings)
+
     min_distance = minimal_distance(bodies)
     
     new_delta_time = min(time_settings)
-    
-    for zone_i, _ in enumerate(time_settings):
-        zones = {
-            'upper': {
-                'index': zone_i
-            },
-            'lower': {
-                'index': zone_i - 1
-            }
-        }
 
-        for zone_type in ['upper', 'lower']:
-            i = zones[zone_type]['index']
+    if min_distance > max(radius_settings):
+        return max(time_settings)
 
-            zones[zone_type]["time"] = time_settings[i] 
-            zones[zone_type]["radius"] = radius_settings[i] 
+    for i, distance in enumerate(radius_settings):
+        if min_distance <= distance:
+            return time_settings[i]
 
-        if ((zones['upper']['index'] == 0 and min_distance < zones['upper']['radius'])
-                or (zones['lower']['radius'] < min_distance and zones['upper']['radius'] >= min_distance)
-                or (zones['upper']['radius'] < min_distance)): # We could combine these 3 if-statements
-            new_delta_time = zones['upper']['time']
-    
-    return new_delta_time
+    raise Exception("Should not be raised, get_delta_time not working properly if raised")

@@ -104,8 +104,6 @@ class Cli(object):
 
         basic_args, _ = parser.parse_known_args()
 
-        print(basic_args)
-
         items = [self.input_providers.get(basic_args.inputprovider)]
         items += [self.output_writers.get(key) for key in basic_args.outputwriter]
         items += [self.modifiers.get(key) for key in basic_args.modifier or []]
