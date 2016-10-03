@@ -143,10 +143,6 @@ def dirname_is_existing_dir(path: str) -> str:
     """
     >>> import tempfile
     
-    >>> dirname_is_existing_dir('')
-    Traceback (most recent call last):
-    argparse.ArgumentTypeError: Dirname of path is not an existing directory.
-    
     >>> dirname_is_existing_dir('/non/existing/dir')
     Traceback (most recent call last):
     argparse.ArgumentTypeError: Dirname of path is not an existing directory.
