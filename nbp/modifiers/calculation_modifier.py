@@ -14,14 +14,13 @@ class CalculationModifier(Modifier):
     def get_cli_arguments() -> list:
         return []
 
-    def modificate(self, state: BodyState) -> BodyState:
+    def modify(self, state: BodyState) -> BodyState:
         """Calculates one tick of the simulator"""
         state.ticks += 1
         state.time += state.delta_time
 
         state = self.__update_position(state)
         state = self.__update_velocity(state)
-        # state = self.__merge(state)
 
         return state
 

@@ -11,5 +11,5 @@ class Modifier(ABC):
         self.args = args
 
     @abstractmethod
-    def modificate(self, state):
-        raise Exception('Method modificate should be implemented.')
+    def modify(self, state):
+        raise Exception('Method modify should be implemented.')

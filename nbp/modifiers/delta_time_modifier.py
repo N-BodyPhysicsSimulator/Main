@@ -26,10 +26,9 @@ class DeltaTimeModifier(Modifier):
     >>> bs = BodyState([one, two], 0, 0, 10)
     >>> bs.delta_time
     10.0
-    >>> new = dtm.modificate(bs)
+    >>> new = dtm.modify(bs)
     >>> new.delta_time
     1
-
     """
     @staticmethod
     def get_cli_arguments() -> list:
@@ -46,7 +45,7 @@ class DeltaTimeModifier(Modifier):
             )
         ]
 
-    def modificate(self, state: BodyState) -> BodyState:
+    def modify(self, state: BodyState) -> BodyState:
         """Calculates one tick of the simulator"""
         state.delta_time = get_delta_time(state.bodies, self.args.get('change_dt_settings'))
 
