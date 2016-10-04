@@ -11,7 +11,7 @@ class BodyState(object):
     def __init__(self, bodies: [Body], ticks: int, time: float, delta_time: float):
         self.bodies, self.ticks = bodies, int(ticks)
         self.time, self.delta_time = float(time), float(delta_time)
-
+        
     def to_dict(self) -> dict:
         """
         >>> state = BodyState([], 10, 100, 2).to_dict()

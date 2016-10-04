@@ -7,13 +7,8 @@ from nbp.bodies import BodyState
 class Modifier(ABC):
     __metaclass__ = ABCMeta
 
-    def __init__(self, generator):
-        self.generator = generator
-
-    def get_generator(self) -> Iterator[BodyState]:
-        yield self.modificate(
-            next(self.generator)
-        )
+    def __init__(self, args):
+        self.args = args
 
     @abstractmethod
     def modificate(self, state):
