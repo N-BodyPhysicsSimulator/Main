@@ -62,3 +62,66 @@ class BodyState(object):
             dictionary['time'],
             dictionary['delta_time']
         )
+
+    def __eq__(self, other):
+        """
+        >>> import numpy as np
+        >>> from nbp.bodies import Body
+
+        >>> one = Body.from_tuple_parameters("Earth", 100.0, 20.0, (1.0, 2.0, 3.0), (4.0, 5.0, 6.0))
+        >>> two = Body('Earth', 100.0, 20.0, np.array([[1.], [2.], [3.]]), np.array([[4.], [5.], [6.]]))
+        
+        >>> state1 = BodyState.from_dict({
+        ...   'ticks': 10,
+        ...   'time': 100,
+        ...   'delta_time': 2.0,
+        ...   'bodies': []
+        ... })
+
+        >>> state2 = BodyState.from_dict({
+        ...   'ticks': 10,
+        ...   'time': 100,
+        ...   'delta_time': 2.0,
+        ...   'bodies': []
+        ... })
+        
+        >>> state1.bodies = [one, two]
+        >>> state2.bodies = [one, two]
+
+        >>> state1 == state2
+        True
+        """
+        if isinstance(other, self.__class__):
+            return self.to_dict() == other.to_dict()
+        return NotImplemented
+
+    def __ne__(self, other):
+        """
+        >>> import numpy as np
+        >>> from nbp.bodies import Body
+
+        >>> one = Body.from_tuple_parameters("Moon", 10.0, 2.0, (11.0, 2.20, 3.40), (14.0, 55.0, 67.0))
+        >>> two = Body('Earth', 100.0, 20.0, np.array([[1.], [2.], [3.]]), np.array([[4.], [5.], [6.]]))
+        
+        >>> state1 = BodyState.from_dict({
+        ...   'ticks': 10,
+        ...   'time': 100,
+        ...   'delta_time': 2.0,
+        ...   'bodies': []
+        ... })
+        >>> state1.bodies = [one]
+
+        >>> state2 = BodyState.from_dict({
+        ...   'ticks': 1,
+        ...   'time': 1020,
+        ...   'delta_time': 23.0,
+        ...   'bodies': []
+        ... })
+        >>> state1.bodies = [two]
+
+        >>> state1 != state2
+        True
+        """
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
