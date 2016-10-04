@@ -120,3 +120,29 @@ class Body(object):
             dict_to_numpy(dictionary['position']),
             dict_to_numpy(dictionary['velocity'])
         )
+
+    def __eq__(self, other):
+        """
+        >>> import numpy as np
+
+        >>> one = Body.from_tuple_parameters("Earth", 100.0, 20.0, (1.0, 2.0, 3.0), (4.0, 5.0, 6.0))
+        >>> two = Body('Earth', 100.0, 20.0, np.array([[1.], [2.], [3.]]), np.array([[4.], [5.], [6.]]))
+        >>> two == one
+        True
+        """
+        if isinstance(other, self.__class__):
+            return self.to_dict() == other.to_dict()
+        return NotImplemented
+
+    def __ne__(self, other):
+        """
+        >>> import numpy as np
+
+        >>> one = Body.from_tuple_parameters("Moon", 100.0, 20.0, (1.0, 2.0, 3.0), (4.0, 5.0, 6.0))
+        >>> two = Body('Earth', 100.0, 20.0, np.array([[1.], [2.], [3.]]), np.array([[4.], [5.], [6.]]))
+        >>> two != one
+        True
+        """
+        if isinstance(other, self.__class__):
+            return not self.__eq__(other)
+        return NotImplemented
