@@ -10,7 +10,6 @@ pylint: pylint-src
 test:
 	$(PY) -m pytest $(module) --doctest-modules
 	$(PY) -m pytest --capture=sys $(module) tests/$(module)/**.py --doctest-modules
-	bats tests/bats
 
 build: install-requirements pylint test
 
