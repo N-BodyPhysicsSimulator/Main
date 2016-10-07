@@ -26,5 +26,5 @@ class JSONOutputWriter(OutputWriter):
         with open(path, "a") as f:
             for state in generator:
                 f.write(
-                    state.to_json() + "\n"
+                    json.dumps(state.to_dict()) + "\n"
                 )

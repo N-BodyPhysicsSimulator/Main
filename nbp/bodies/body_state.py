@@ -1,7 +1,5 @@
 from nbp.bodies import Body
 
-import json
-
 
 class BodyState(object):
     pass  # Typehinting
@@ -32,9 +30,6 @@ class BodyState(object):
             'delta_time': self.delta_time,
             'bodies': [body.to_dict() for body in self.bodies]
         }
-
-    def to_json(self) -> str:
-        return json.dumps(self.to_dict())
 
     @staticmethod
     def from_dict(dictionary: dict) -> BodyState:
