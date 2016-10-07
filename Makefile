@@ -9,12 +9,13 @@ pylint: pylint-src
 
 test:
 	$(PY) -m pytest $(module) --doctest-modules
+	$(PY) -m pytest --capture=sys $(module) tests/$(module)/**.py --doctest-modules
 	bats tests/bats
 
 build: install-requirements pylint test
 
 codecov:
-	$(PY) -m pytest --cov=$(module)
+	$(PY) -m pytest --capture=sys $(module) tests/$(module)/**.py --doctest-modules --cov=$(module) --cov=test/$(module)
 	codecov
 
 install-requirements: install-requirements-app install-requirements-dev
