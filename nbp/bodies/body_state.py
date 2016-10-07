@@ -91,9 +91,7 @@ class BodyState(object):
         >>> state1 == state2
         True
         """
-        if isinstance(other, self.__class__):
-            return self.to_dict() == other.to_dict()
-        return NotImplemented
+        return isinstance(other, self.__class__) and self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """
@@ -122,6 +120,4 @@ class BodyState(object):
         >>> state1 != state2
         True
         """
-        if isinstance(other, self.__class__):
-            return not self.__eq__(other)
-        return NotImplemented
+        return isinstance(other, self.__class__) and not self.__eq__(other)
