@@ -97,7 +97,7 @@ def str_is_existing_dir(path: str) -> str:
     >>> import tempfile
 
     >>> with tempfile.TemporaryDirectory() as path:
-    ...     str_is_existing_path(path) == path
+    ...     str_is_existing_dir(path) == path
     True
 
     >>> str_is_existing_dir('')
@@ -142,6 +142,10 @@ def str_is_existing_file(path: str) -> str:
 def dirname_is_existing_dir(path: str) -> str:
     """
     >>> import tempfile
+
+    >>> with tempfile.TemporaryFile() as f:
+    ...     dirname_is_existing_dir(f.name) == f.name
+    True
     
     >>> dirname_is_existing_dir('/non/existing/dir')
     Traceback (most recent call last):

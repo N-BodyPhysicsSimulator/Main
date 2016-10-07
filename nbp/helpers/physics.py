@@ -341,5 +341,3 @@ def get_delta_time(bodies: [Body], settings: tuple) -> float:
     for i, distance in enumerate(radius_settings):
         if min_distance <= distance:
             return time_settings[i]
-
-    raise Exception("Should not be raised, get_delta_time not working properly if raised")
