@@ -48,8 +48,8 @@ def int_is_valid_port(port: int) -> int:
         raise ArgumentTypeError("Privileged port used.")
     elif not port in range(1024, 2 ** 16):
         raise ArgumentTypeError("Port outside port range.")
-    elif int_is_open_port(port) is port:
-        return port
+    else:
+        return int_is_open_port(port)
 
 def int_is_open_port(port: int) -> int:
     port = int(port)
