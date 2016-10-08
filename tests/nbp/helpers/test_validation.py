@@ -19,7 +19,7 @@ def test_closed_port(capsys):
 
     serversocket.close()
 
-def test_closed_port():
+def test_open_port():
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serversocket.bind((socket.gethostname(), 0))
     host, port = serversocket.getsockname()
