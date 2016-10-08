@@ -17,6 +17,8 @@ def test_closed_port(capsys):
     with pytest.raises(ArgumentTypeError):
         assert int_is_valid_port(port) != port
 
+    serversocket.close()
+
 def test_closed_port():
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     serversocket.bind((socket.gethostname(), 0))
