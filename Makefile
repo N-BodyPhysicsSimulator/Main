@@ -13,7 +13,7 @@ test:
 build: install-requirements pylint test
 
 codecov:
-	$(PY) -m pytest --capture=sys $(module) tests --doctest-module --cov=$(module) --cov=tests
+	$(PY) -m pytest --capture=sys $(module) tests --doctest-module --cov=$(module)
 	codecov
 
 install-requirements: install-requirements-app install-requirements-dev
