@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+from argparse import ArgumentTypeError
+
 import pytest
 import socket
 
