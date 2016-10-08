@@ -1,3 +1,5 @@
+import json
+
 from nbp.decorators import entity
 from nbp.helpers.validation import dirname_is_existing_dir
 from nbp.io.output_writers.output_writer import OutputWriter

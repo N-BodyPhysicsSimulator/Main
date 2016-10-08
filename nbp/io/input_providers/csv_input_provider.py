@@ -52,6 +52,8 @@ class CSVInputProvider(InputProvider):
 
         with open(path) as f:
             for index, line in enumerate(f.readlines()):
+                line = line.replace("\n", "")
+                
                 if index is 0:
                     column_names = line.split(separator)
                 else:
@@ -63,13 +65,13 @@ class CSVInputProvider(InputProvider):
                         'mass': float(body['mass']),
                         'position': {
                             'x': float(body['pos.x']),
-                            'y': float(body['pos.x']),
-                            'z': float(body['pos.x'])
+                            'y': float(body['pos.y']),
+                            'z': float(body['pos.z'])
                         },
                         'velocity': {
                             'x': float(body['vel.x']),
-                            'y': float(body['vel.x']),
-                            'z': float(body['vel.x'])
+                            'y': float(body['vel.y']),
+                            'z': float(body['vel.z'])
                         }
                     })
 

@@ -1,5 +1,4 @@
 import argparse
-import sys
 
 from multiprocessing import Pipe
 from threading import Thread
@@ -10,7 +9,7 @@ from nbp.modifiers import ModifierBundle
 
 
 class Cli(object):
-    def __init__(self, args=None):
+    def __init__(self, args):
         entities = {
             'output_writers': nbp.io.output_writers,
             'input_providers': nbp.io.input_providers,
@@ -71,9 +70,8 @@ class Cli(object):
 
         self.close_application(pipes)
 
-    def get_args(self, args=None):
+    def get_args(self, args=[]):
         parser = argparse.ArgumentParser(description='N-Body Physics Simulator')
-        args = args or sys.argv
 
         parser.add_argument('--inputprovider', '-i', metavar='ip',
                             type=str, help='Selection of Input Provider.',

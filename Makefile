@@ -8,7 +8,7 @@ pylint-src:
 pylint: pylint-src
 
 test:
-	$(PY) -m pytest --capture=sys $(module) tests --doctest-module
+	$(PY) -m pytest --capture=sys $(module) tests --doctest-module -vv
 
 build: install-requirements pylint test
 
