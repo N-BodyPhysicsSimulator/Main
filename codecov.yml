@@ -2,6 +2,3 @@ coverage:
   token: secret:PeLhK7w+i8Un5ZcM7cG0A1gk5p+tUbDfA8PUGzXWyI1YsaNK13Qelqb5sPfMH6zg7WpgpPBsrmM2qO8KZYFpWVbKDEzVygr6Prc8mg5NJ7c=
   round: up
   range: 50...100
-  ignore:
-    - tests/*
-    - tests/**
