@@ -1,9 +1,7 @@
-from abc import abstractmethod, ABCMeta, ABC
+from abc import abstractmethod, ABCMeta
 
 
-class OutputWriter(ABC):
-    __metaclass__ = ABCMeta
-
+class OutputWriter(metaclass=ABCMeta):
     def __init__(self, pipe, args):
         try:
             self.handle(self.generator(pipe.recv), args)
@@ -20,12 +18,14 @@ class OutputWriter(ABC):
                 self.exit()
                 exit(0)
 
-    def exit(self): pass
+    def exit(self):
+        pass
 
     @abstractmethod
     def handle(self, generator, args):
-        raise NotImplementedError()
+        pass
 
     @staticmethod
+    @abstractmethod
     def get_cli_arguments() -> list:
-        raise NotImplementedError()
+        pass
