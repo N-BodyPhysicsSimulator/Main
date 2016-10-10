@@ -44,7 +44,7 @@ class WSOutputWriter(OutputWriter):
         loop.stop()
         loop.close()
     
-    def handle(self, generator, args):
+    def handle(self, generator):
         self.clients = []
 
         async def server(client, _):
@@ -58,7 +58,7 @@ class WSOutputWriter(OutputWriter):
         )
 
         asyncio.get_event_loop().run_until_complete(
-            websockets.serve(server, args.get('ws_host'), args.get('ws_port'))
+            websockets.serve(server, self.args.get('ws_host'), self.args.get('ws_port'))
         )
 
         asyncio.get_event_loop().run_forever()

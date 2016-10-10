@@ -5,14 +5,11 @@ import pytest
 from nbp.io.output_writers import OutputWriter
 
 def test_should_abstract_methods():
-    class FakeReceiver():
-        recv = 123
-        
     class DaganOutputWriter(OutputWriter):
         pass
 
     class HadidOutputWriter(OutputWriter):
-        def handle(self, state, args):
+        def handle(self, state):
             return state
 
     class MariOutputWriter(OutputWriter):
@@ -21,8 +18,8 @@ def test_should_abstract_methods():
             return []
 
     class MotOutputWriter(OutputWriter):
-        def handle(self, state, args):
-            return (state, args)
+        def handle(self, state):
+            return state
 
         @staticmethod
         def get_cli_arguments():
@@ -37,5 +34,5 @@ def test_should_abstract_methods():
     with pytest.raises(TypeError):
         MariOutputWriter({})
 
-    assert MotOutputWriter(FakeReceiver, {}).handle("String", 123) == ("String", 123)
-    assert MotOutputWriter(FakeReceiver, {}).get_cli_arguments() == []
+    assert MotOutputWriter({}).handle("String") == "String"
+    assert MotOutputWriter({}).get_cli_arguments() == []
