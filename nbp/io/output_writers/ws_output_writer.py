@@ -1,6 +1,7 @@
 import asyncio
 
 import websockets
+import json
 
 from nbp.decorators import entity
 from nbp.helpers.validation import int_is_valid_port
@@ -43,21 +44,21 @@ class WSOutputWriter(OutputWriter):
         loop.stop()
         loop.close()
     
-    def handle(self, generator, args):
+    def handle(self, generator):
         self.clients = []
 
         async def server(client, _):
             self.clients.append(client)
 
             for state in generator:
-                await client.send(state.to_json())
+                await client.send(json.dumps(state.to_dict()))
 
         asyncio.set_event_loop(
             asyncio.new_event_loop()
         )
 
         asyncio.get_event_loop().run_until_complete(
-            websockets.serve(server, args.get('ws_host'), args.get('ws_port'))
+            websockets.serve(server, self.args.get('ws_host'), self.args.get('ws_port'))
         )
 
         asyncio.get_event_loop().run_forever()

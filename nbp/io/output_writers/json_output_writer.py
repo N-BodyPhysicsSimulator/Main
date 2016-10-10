@@ -1,3 +1,5 @@
+import json
+
 from nbp.decorators import entity
 from nbp.helpers.validation import dirname_is_existing_dir
 from nbp.io.output_writers.output_writer import OutputWriter
@@ -20,11 +22,11 @@ class JSONOutputWriter(OutputWriter):
             )
         ]
 
-    def handle(self, generator, args):
-        path = args.get('json_output_path')
+    def handle(self, generator):
+        path = self.args.get('json_output_path')
 
         with open(path, "a") as f:
             for state in generator:
                 f.write(
-                    state.to_json() + "\n"
+                    json.dumps(state.to_dict()) + "\n"
                 )

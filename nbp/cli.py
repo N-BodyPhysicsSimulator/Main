@@ -1,4 +1,5 @@
 import argparse
+
 from multiprocessing import Pipe
 from threading import Thread
 
@@ -8,7 +9,7 @@ from nbp.modifiers import ModifierBundle
 
 
 class Cli(object):
-    def __init__(self):
+    def __init__(self, args):
         entities = {
             'output_writers': nbp.io.output_writers,
             'input_providers': nbp.io.input_providers,
@@ -24,7 +25,7 @@ class Cli(object):
 
             setattr(self, key, mirror)
 
-        self.__args = self.get_args()
+        self.__args = self.get_args(args)
 
     def start_application(self):
         max_ticks, max_time = self.__args.max_ticks, self.__args.max_time
@@ -69,7 +70,7 @@ class Cli(object):
 
         self.close_application(pipes)
 
-    def get_args(self):
+    def get_args(self, args=[]):
         parser = argparse.ArgumentParser(description='N-Body Physics Simulator')
 
         parser.add_argument('--inputprovider', '-i', metavar='ip',
@@ -102,7 +103,7 @@ class Cli(object):
                                type=int_greater_than_zero, help='Max time to calculate.',
                                dest='max_time')
 
-        basic_args, _ = parser.parse_known_args()
+        basic_args, _ = parser.parse_known_args(args)
 
         items = [self.input_providers.get(basic_args.inputprovider)]
         items += [self.output_writers.get(key) for key in basic_args.outputwriter]
@@ -112,7 +113,7 @@ class Cli(object):
             for argument_set in item.get_cli_arguments():
                 parser.add_argument(argument_set[0], **argument_set[1])
 
-        return parser.parse_args()
+        return parser.parse_args(args)
 
     def close_application(self, pipes):
         for pipe in pipes:
