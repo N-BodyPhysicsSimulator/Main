@@ -1,6 +1,10 @@
 PY=python3.5
+PY="/cygdrive/c/Users/Steve/AppData/Local/Programs/Python/Python35-32/python.exe"
 files=nbp/**/*.py
 module=nbp
+
+run:
+	${PY} -m nbp
 
 pylint-src:
 	$(PY) -m pylint $(module)
@@ -8,13 +12,12 @@ pylint-src:
 pylint: pylint-src
 
 test:
-	$(PY) -m pytest $(module) --doctest-modules
-	bats tests/bats
+	$(PY) -m pytest --capture=sys $(module) tests --doctest-module -vv
 
 build: install-requirements pylint test
 
 codecov:
-	$(PY) -m pytest --cov=$(module)
+	$(PY) -m pytest --capture=sys $(module) tests --doctest-module --cov=$(module)
 	codecov
 
 install-requirements: install-requirements-app install-requirements-dev

@@ -1,7 +1,5 @@
 from nbp.bodies import Body
 
-import json
-
 
 class BodyState(object):
     pass  # Typehinting
@@ -32,9 +30,6 @@ class BodyState(object):
             'delta_time': self.delta_time,
             'bodies': [body.to_dict() for body in self.bodies]
         }
-
-    def to_json(self) -> str:
-        return json.dumps(self.to_dict())
 
     @staticmethod
     def from_dict(dictionary: dict) -> BodyState:
@@ -91,9 +86,7 @@ class BodyState(object):
         >>> state1 == state2
         True
         """
-        if isinstance(other, self.__class__):
-            return self.to_dict() == other.to_dict()
-        return NotImplemented
+        return isinstance(other, self.__class__) and self.to_dict() == other.to_dict()
 
     def __ne__(self, other):
         """
@@ -122,6 +115,4 @@ class BodyState(object):
         >>> state1 != state2
         True
         """
-        if isinstance(other, self.__class__):
-            return not self.__eq__(other)
-        return NotImplemented
+        return isinstance(other, self.__class__) and not self.__eq__(other)

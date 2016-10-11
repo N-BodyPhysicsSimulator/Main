@@ -48,11 +48,8 @@ def int_is_valid_port(port: int) -> int:
         raise ArgumentTypeError("Privileged port used.")
     elif not port in range(1024, 2 ** 16):
         raise ArgumentTypeError("Port outside port range.")
-    elif int_is_open_port(port) is not port:
-        pass  # will raise anyway
     else:
-        return port
-
+        return int_is_open_port(port)
 
 def int_is_open_port(port: int) -> int:
     port = int(port)
@@ -97,7 +94,7 @@ def str_is_existing_dir(path: str) -> str:
     >>> import tempfile
 
     >>> with tempfile.TemporaryDirectory() as path:
-    ...     str_is_existing_path(path) == path
+    ...     str_is_existing_dir(path) == path
     True
 
     >>> str_is_existing_dir('')
@@ -108,10 +105,10 @@ def str_is_existing_dir(path: str) -> str:
     Traceback (most recent call last):
     argparse.ArgumentTypeError: Given path is not an existing directory.
     """
-    if not isdir(path):
-        raise ArgumentTypeError("Given path is not an existing directory.")
-    else:
+    if isdir(path):
         return path
+    else:
+        raise ArgumentTypeError("Given path is not an existing directory.")
 
 
 def str_is_existing_file(path: str) -> str:
@@ -134,14 +131,18 @@ def str_is_existing_file(path: str) -> str:
     Traceback (most recent call last):
     argparse.ArgumentTypeError: Given path is not an existing file.
     """
-    if not isfile(path):
-        raise ArgumentTypeError("Given path is not an existing file.")
-    else:
+    if isfile(path):
         return path
+    else:
+        raise ArgumentTypeError("Given path is not an existing file.")
 
 def dirname_is_existing_dir(path: str) -> str:
     """
     >>> import tempfile
+
+    >>> with tempfile.TemporaryDirectory() as dir:
+    ...     dirname_is_existing_dir(dir) == dir
+    True
     
     >>> dirname_is_existing_dir('/non/existing/dir')
     Traceback (most recent call last):

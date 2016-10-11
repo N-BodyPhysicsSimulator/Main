@@ -23,8 +23,8 @@ class CSVOutputWriter(OutputWriter):
             )
         ]
 
-    def handle(self, generator, args):
-        path = args.get('path')
+    def handle(self, generator):
+        path = self.args.get('path')
 
         for state in generator:
             for body in state.bodies:

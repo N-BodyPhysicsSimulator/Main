@@ -4,5 +4,6 @@ a Output Writer to output data to Excel sheets """
 
 from .csv_output_writer import CSVOutputWriter
 from .ws_output_writer import WSOutputWriter
-from .http_output_writer import HTTPOutputWriter
 from .json_output_writer import JSONOutputWriter
+
+from .output_writer import OutputWriter

@@ -17,7 +17,8 @@ class ModifierBundle(object):
     >>> bs = BodyState([one, two], 0, 0, 10)
     >>> bs.delta_time
     10.0
-    >>> bundle = ModifierBundle([ dtm ])
+    >>> bundle = ModifierBundle([])
+    >>> bundle.add_modifier(dtm)
     >>> gen = bundle.get_generator(bs)
     >>> new = next(gen)
     >>> new.delta_time
