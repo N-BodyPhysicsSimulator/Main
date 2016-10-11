@@ -1,6 +1,14 @@
 # N-Body Physics Simulator (and Visualisator)
 [![codecov](https://codecov.io/gh/N-BodyPhysicsSimulator/main/branch/master/graph/badge.svg)](https://codecov.io/gh/N-BodyPhysicsSimulator/main)
 [![Build Status](https://travis-ci.org/N-BodyPhysicsSimulator/Main.svg?branch=master)](https://travis-ci.org/N-BodyPhysicsSimulator/Main)
+## Installation by `pip`
+
+`python3 -mpip install git+git://github.com/N-BodyPhysicsSimulator/Main.git`
+
+## To run
+
+`python3 -m nbp`
+
 ## How to contribute
 
 1. Fork the project.
@@ -12,7 +20,7 @@
 7. After we wrote a code review, you could improve your code according to our suggestions. Please, improve your code.
 8. *Go to step 4*.
 
-## How to run
+## How to run from source
 
 For running the simulator, Python `3.5.x` or higher is required.
 
@@ -20,7 +28,7 @@ Not tested on `Mac OS X`/`macOS` or `Microsoft Windows`.
 
 ### Linux / Mac OS X
 
-#### Installation
+#### Installation from source
 
 1. Run `make install-requirements-app`
 2. Run tests and make sure there aren't any failing tests.
@@ -37,38 +45,38 @@ Not tested on `Mac OS X`/`macOS` or `Microsoft Windows`.
 - There are as well Output Writers, to do something with the input. Like the `ws`, `http` and `csv` Output Writer. Required option.
 - Delta Time is a required option as well. This is the change of time between two states.
 
-For example: run `python3.5 nbp_cli.py`
+For example: run `python3 -m nbp`
 
 ```
-usage: nbp_cli.py [-h] --inputprovider ip --outputwriter outputwriter
+usage: nbp [-h] --inputprovider ip --outputwriter outputwriter
                   [outputwriter ...] --delta-time seconds
                   [--modifier [modifiers [modifiers ...]]]
                   [--max-ticks ticks | --max-time seconds]
-nbp_cli.py: error: the following arguments are required: --inputprovider/-i, --outputwriter/-o, --delta-time/-dt
+nbp: error: the following arguments are required: --inputprovider/-i, --outputwriter/-o, --delta-time/-dt
 ```
 
 - `max-ticks` is used to exit the simulator after a specific amount of ticks
 - `max-time` is used to exit the simulator after a specific amount of time (see `delta-time`)
 - `modifier` is used to modify data from the Input Provider before passing it to the Output Writers. You could use `calculation` to calculate new data.
 
-You could run `python3.5 nbp_cli.py --inputprovider json -o ws -dt 10`
+You could run `python3 -m nbp --inputprovider json -o ws -dt 10`
 
 ```
 [...]
-nbp_cli.py: error: the following arguments are required: --json-input-file, --ws-port
+nbp: error: the following arguments are required: --input-file, --ws-port
 ```
 
-The `json` Input Provider requires parameter `--json-input-file` with a path to the JSON file and the `ws` Output Writer requires `--ws-port` with a port for the WebSocket server to 1listen on.
+The `json` Input Provider requires parameter `--input-file` with a path to the JSON file and the `ws` Output Writer requires `--ws-port` with a port for the WebSocket server to 1listen on.
 
-Let's run `python3.5 nbp_cli.py --inputprovider json -o ws -dt 10 --json-input-file /home/<user>/input.json --ws-port 8080`
+Let's run `python3 -m nbp --inputprovider json -o ws -dt 10 --input-file /home/<user>/input.json --ws-port 8080`
 
 The simulator will now load the states from the JSON-file, but it won't calculate anything at all. We can use `--modifier` to make it calculate data.
 
-Run command `python3.5 nbp_cli.py --inputprovider json -o ws -dt 10 --json-input-file /home/<user>/input.json --ws-port 8080 --modifier calculation --max-ticks 10000`
+Run command `python3 -m nbp --inputprovider json -o ws -dt 10 --input-file /home/<user>/input.json --ws-port 8080 --modifier calculation --max-ticks 10000`
 
 The simulator will now import the states from the JSON-file, and it output all states from the JSON-file to the OutputWriters. On the last state, the CalculationModifier will start to calculate. Simulator will quit after 10000 states because of the `--max-ticks` option.
 
-You can use multiple OutputWriters at once: `python3.5 nbp_cli.py --inputprovider json --outputwriter json csv ws -dt 10 --json-input-file /home/<user>/input.json --json-output-file /home/<user>/output.json --path /home/<user>/csv-output --ws-port 8080`
+You can use multiple OutputWriters at once: `python3 -m nbp --inputprovider json --outputwriter json csv ws -dt 10 --input-file /home/<user>/input.json --json-output-file /home/<user>/output.json --path /home/<user>/csv-output --ws-port 8080`
 
 ## Goals
 
@@ -85,8 +93,8 @@ You can use multiple OutputWriters at once: `python3.5 nbp_cli.py --inputprovide
 - [x] Optimizing code for CPU (use of async-code, multiple threads?)
 - [ ] Optimizing code for GPU. GPU's are really good in doing many simple functions. (We could use ArrayFire, OpenCL or CUDA)
 - [x] The possibility to theoretically calculate infinite bodies
-- [ ] Changing the delta time (change in time) based on the distance of bodies to eachother
-- [ ] Space ship: a body with the possibility to change speed depending on commands
+- [x] Changing the delta time (change in time) based on the distance of bodies to eachother
+- [ ] Spaceship: a body with the possibility to change speed depending on commands
 
 ### Visualisator
 - [ ] Showing the data of the simulator on xy-, yz- and xz-diagrams (2D)
