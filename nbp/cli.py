@@ -71,7 +71,7 @@ class Cli(object):
         self.close_application(pipes)
 
     def get_args(self, args=[]):
-        parser = argparse.ArgumentParser(description='N-Body Physics Simulator')
+        parser = argparse.ArgumentParser(prog="nbp", description='N-Body Physics Simulator')
 
         parser.add_argument('--inputprovider', '-i', metavar='ip',
                             type=str, help='Selection of Input Provider.',

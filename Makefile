@@ -1,6 +1,10 @@
 PY=python3.5
+PY="/cygdrive/c/Users/Steve/AppData/Local/Programs/Python/Python35-32/python.exe"
 files=nbp/**/*.py
 module=nbp
+
+run:
+	${PY} -m nbp
 
 pylint-src:
 	$(PY) -m pylint $(module)
