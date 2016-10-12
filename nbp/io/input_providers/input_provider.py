@@ -13,9 +13,9 @@ class InputProvider(metaclass=ABCMeta):
     @abstractmethod
     def get_generator(self) -> Iterator[BodyState]:
         """ Method to receive bodies. Returns a generator. """
-        pass
+        pass # codecov skip
 
     @staticmethod
     @abstractmethod
     def get_cli_arguments() -> list:
-        pass
+        pass # codecov skip
