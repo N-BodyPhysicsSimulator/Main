@@ -1,3 +1,5 @@
+import pytest
+
 from abc import ABCMeta, abstractmethod
 from typing import Iterator
 
@@ -9,10 +11,12 @@ class Modifier(metaclass=ABCMeta):
         self.args = args
 
     @abstractmethod
+    @pytest.mark.skip(reason="Abstract method")
     def modify(self, state):
         pass
 
     @staticmethod
     @abstractmethod
+    @pytest.mark.skip(reason="Abstract method")
     def get_cli_arguments() -> list:
         pass
