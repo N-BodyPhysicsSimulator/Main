@@ -1,0 +1,7 @@
+coverage:
+  round: up
+  range: 50...100
+
+  ignore:
+    - "*/**/__**__.py"
+    - "*/__**__.py"
