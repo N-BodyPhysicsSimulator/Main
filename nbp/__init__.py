@@ -5,4 +5,5 @@ from . import io
 from . import helpers
 from . import modifiers
 from .cli import Cli
+#from .calculator import Calculator
 

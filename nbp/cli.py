@@ -5,7 +5,10 @@ from threading import Thread
 
 import nbp.io.output_writers
 from nbp.helpers.validation import int_greater_than_zero
+from nbp.helpers.validation import enumerater_getter
 from nbp.modifiers import ModifierBundle
+
+from nbp.io.output_writers import OutputWriterController
 
 
 class Cli(object):
@@ -41,15 +44,15 @@ class Cli(object):
 
         if self.__args.modifier:
             for modifier_name in self.__args.modifier:
-                bundle.add_modifier(self.modifiers[modifier_name](self.__args))
+                bundle.add_modifier(self.modifiers[modifier_name](vars(self.__args)))
                 
-            generator = bundle.get_generator(generator)
+            generator = bundle.get_generator(next(generator))
 
         for ow_name in self.__args.outputwriter:
             parent, child = Pipe()
 
-            ow = self.output_writers[ow_name]
-            Thread(target=ow, args=(child, vars(self.__args))).start()
+            ow = self.output_writers[ow_name](vars(self.__args))
+            Thread(target=OutputWriterController, args=(ow, child)).start()
 
             pipes.append(parent)
 
@@ -102,6 +105,14 @@ class Cli(object):
         max_group.add_argument('--max-time', '-T', metavar='seconds',
                                type=int_greater_than_zero, help='Max time to calculate.',
                                dest='max_time')
+
+        parser.add_argument('--calculate', '-c', metavar='1 or 0',
+                               type=bool, help='Calculate States?',
+                               dest='calculate')
+
+        parser.add_argument('--calculate-state', '-clt', metavar='LAST, FIRST or integer',
+                               type=enumerater_getter, help='Calculate with last state as start-state?',
+                               dest='state_getter')
 
         basic_args, _ = parser.parse_known_args(args)
 

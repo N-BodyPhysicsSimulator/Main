@@ -14,5 +14,5 @@ class OutputWriterController():
             if message.get('type') == 'data':
                 yield message.get('data')
             elif message.get('type') == 'end':
-                self.__output_writer.exit()
+                #self.__output_writer.exit()
                 exit(0)

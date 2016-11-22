@@ -9,7 +9,7 @@ class OutputWriter(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def handle(self, generator, args):
+    def handle(self, generator):
         pass
 
     @staticmethod

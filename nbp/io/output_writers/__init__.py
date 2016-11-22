@@ -7,3 +7,4 @@ from .ws_output_writer import WSOutputWriter
 from .json_output_writer import JSONOutputWriter
 
 from .output_writer import OutputWriter
+from .output_writer_controller import OutputWriterController

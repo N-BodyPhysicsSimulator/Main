@@ -168,3 +168,24 @@ def change_delta_time_settings_to_tuples(value: str) -> list:
             ]
         ]
     )
+
+def enumerater_getter(v: str):
+    """
+    >>> func = enumerater_getter("first")
+    >>> func([23,19,3])
+    23
+    >>> func = enumerater_getter("LAST")
+    >>> func([23, 19, 123])
+    123
+    >>> func = enumerater_getter("3")
+    >>> func([1, 3, 5, 7, 11, 13])
+    7
+    """
+    v = v.lower().strip()
+    
+    if v == "first":
+        return lambda enum: enum[0]
+    if v == "last":
+        return max
+    else:
+        return lambda enum: enum[int(v)]
