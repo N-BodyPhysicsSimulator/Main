@@ -12,7 +12,7 @@ class CSVOutputWriter(OutputWriter):
     def get_cli_arguments() -> list:
         return [
             (
-                '--output-path',
+                '--csv-output-path',
                 {
                     'metavar': 'path',
                     'type': str_is_existing_dir,
