@@ -12,11 +12,11 @@ class CSVOneFileOutputWriter(OutputWriter):
     def get_cli_arguments() -> list:
         return [
             (
-                '--output-file',
+                '--csv-1f-output-file',
                 {
                     'metavar': 'path',
                     'type': dirname_is_existing_dir,
-                    'help': 'Path for output, required when using the CSV Output Provider.',
+                    'help': 'Path for output, required when using the CSV One File Output Provider.',
                     'dest': 'path',
                     'required': True
                 }
