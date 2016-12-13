@@ -76,7 +76,7 @@ Run command `python3 -m nbp --inputprovider json -o ws -dt 10 --input-file /home
 
 The simulator will now import the states from the JSON-file, and it output all states from the JSON-file to the OutputWriters. On the last state, the CalculationModifier will start to calculate. Simulator will quit after 10000 states because of the `--max-ticks` option.
 
-You can use multiple OutputWriters at once: `python3 -m nbp --inputprovider json --outputwriter json csv ws -dt 10 --input-file /home/<user>/input.json --json-output-file /home/<user>/output.json --path /home/<user>/csv-output --ws-port 8080`
+You can use multiple OutputWriters at once: `python3 -m nbp --inputprovider json --outputwriter json csv ws -dt 10 --input-file /home/<user>/input.json --json-output-file /home/<user>/output.json --csv-output-path /home/<user>/csv-output --ws-port 8080`
 
 ## Goals
 
