@@ -13,6 +13,7 @@ from nbp.helpers.validation import change_delta_time_settings_to_tuples
 @entity("delta_time")
 class DeltaTimeModifier(Modifier):
     """
+    the settings are in this format : ([time1, time2], [distance1, distance2])
     >>> from nbp.helpers.numpy import tuple_to_numpy
     >>> from nbp.bodies import Body
     >>> from nbp.bodies import BodyState
