@@ -156,7 +156,7 @@ def dirname_is_existing_dir(path: str) -> str:
 
 def change_delta_time_settings_to_tuples(value: str) -> list:
     """
-    Value has format <distance1>,<distance2>:<time1>,<time2>
+    Value has format <time1>,<time2>:<distance1>,<distance2>
     
     >>> change_delta_time_settings_to_tuples("500,300,90:2,1,4")
     ([90, 300, 500], [1, 2, 4])
