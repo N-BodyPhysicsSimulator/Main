@@ -15,17 +15,17 @@ def distance_to(one_body: Body, other_body: Body) -> numpy.ndarray:
     >>> earth = Body.from_tuple_parameters("Earth", 5.972*(10**24), 100, (1.506*(10**11), 0, 100), (0, 29290, 0))
     >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), -500), (1050, 29290, 0))
     >>> distance_to(moon, earth)
-    array([[  1.00000000e+09],
-           [ -3.84400000e+08],
-           [  6.00000000e+02]])
+    array([[ 1.000e+09],
+           [-3.844e+08],
+           [ 6.000e+02]])
 
     Distance to itself is always 0 in all directions.
 
     >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100, (1.496*(10**11), 384.4*(10**6), -500), (1050, 29290, 0))
     >>> distance_to(moon, moon)
-    array([[ 0.],
-           [ 0.],
-           [ 0.]])
+    array([[0.],
+           [0.],
+           [0.]])
 
     >>> from nbp.helpers.numpy import tuple_to_numpy
     >>> import numpy as np
@@ -33,9 +33,9 @@ def distance_to(one_body: Body, other_body: Body) -> numpy.ndarray:
     >>> one = Body('saturn', 100, 100, np.array([[0.], [0.], [0.]]), velocity)
     >>> two = Body('neptune', 100, 100, tuple_to_numpy((0, 146.2, 0)), velocity)
     >>> distance_to(one, two)
-    array([[   0. ],
-           [ 146.2],
-           [   0. ]])
+    array([[  0. ],
+           [146.2],
+           [  0. ]])
     """
     return other_body.position - one_body.position
 
@@ -49,12 +49,12 @@ def absolute_distance_to_one(one_body: Body, other_body: Body) -> float:
     >>> earth = Body.from_tuple_parameters("Earth", 5.972*(10**24), 100.0, (1.496*(10**11), 0, 0), (0, 29290, 0))
     >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100.0, (1.496*(10**11), 384.4*(10**6), 0), (1050, 29290, 0))
     >>> absolute_distance_to_one(moon, earth)
-    384400000.0
+    np.float64(384400000.0)
     
     >>> earth = Body.from_tuple_parameters("Earth", 5.972*(10**24), 100.0, (1.496*(10**11), 0, 0), (0, 29290, 0))
     >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100.0, (1.496*(10**11), -384.4*(10**6), -69834), (1050, 29290, 0))
     >>> absolute_distance_to_one(moon, earth)
-    384400006.34337604
+    np.float64(384400006.34337604)
 
     >>> from nbp.helpers.numpy import tuple_to_numpy
     >>> import numpy as np
@@ -107,9 +107,9 @@ def acceleration_to_all(one_body: Body, bodies: [Body]) -> numpy.ndarray:
     >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100.0, (0, 384.4*(10**6), -1000), (0, 0, 0))
 
     >>> acceleration_to_all(moon, [kg, earth1, earth2, moon])
-    array([[ -4.46878801e-05],
-           [ -5.48536334e-03],
-           [  6.07257588e-08]])
+    array([[-4.46878801e-05],
+           [-5.48536334e-03],
+           [ 6.07257588e-08]])
 
     """
     total_acceleration = numpy.array([[0],
@@ -130,9 +130,9 @@ def calculate_position(body: Body, delta_time: float) -> numpy.ndarray:
     
     >>> test_body = Body.from_tuple_parameters("Test_body", 1.0, 1.0, (60, -20, 15), (4, 10.2, -6))
     >>> calculate_position(test_body, 3.0)
-    array([[ 72. ],
-           [ 10.6],
-           [ -3. ]])
+    array([[72. ],
+           [10.6],
+           [-3. ]])
     """
     return body.position + (delta_time * body.velocity)
 
@@ -151,17 +151,17 @@ def calculate_velocity(one_body: Body, delta_time: float, other_bodies: [Body]) 
         >>> e5 = Body.from_tuple_parameters("Earth5", (5.972*(10**24)), 100.0, (6371000, 9000, -532), (0, 0, 0))
         >>> e6 = Body.from_tuple_parameters("Earth6", (5.972*(10**24)), 100.0, (-6371000, -9000, 532), (0, 0, 0))
         >>> calculate_velocity(kg, 314.0, [kg, e1, e2, e3, e4, e5, e6])
-        array([[ 0.],
-               [ 0.],
-               [ 0.]])
+        array([[0.],
+               [0.],
+               [0.]])
 
         >>> kg = Body.from_tuple_parameters("kg", 1.0, 100.0, (0, 0, 0), (0, 0, 0))
         >>> earth1 = Body.from_tuple_parameters("Earth1", (5.972*(10**24)), 100.0, (0, 6371000, 6280), (0, 0, 0))
         >>> moon = Body.from_tuple_parameters("Moon", 0.0735*(10**24), 100.0, (0, 384.4*(10**6), -1000), (0, 0, 0))
         >>> calculate_velocity(kg, 16.0, [kg, earth1, moon])
-        array([[  0.00000000e+00],
-               [  1.57114698e+02],
-               [  1.54870030e-01]])
+        array([[0.00000000e+00],
+               [1.57114698e+02],
+               [1.54870030e-01]])
     """
 
     return one_body.velocity + (delta_time * acceleration_to_all(one_body, other_bodies))
@@ -179,14 +179,14 @@ def merge_bodies(one_body: Body, other_body: Body) -> Body:
     >>> planet = merge_bodies(earth, moon)
 
     >>> planet.position
-    array([[  1.50587842e+11],
-           [  4.67395352e+06],
-           [  9.27053180e+01]])
+    array([[1.50587842e+11],
+           [4.67395352e+06],
+           [9.27053180e+01]])
 
     >>> planet.velocity
-    array([[ -8.60185262e+01],
-           [  2.85777959e+04],
-           [ -7.59904061e-01]])
+    array([[-8.60185262e+01],
+           [ 2.85777959e+04],
+           [-7.59904061e-01]])
 
     >>> planet.radius
     6413824.949215559
@@ -235,7 +235,7 @@ def minimal_distance(bodies: [Body]) -> float:
     >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
     >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
     >>> minimal_distance([sun, earth, moon, jupiter, saturn, neptune])
-    405500037.33168757
+    np.float64(405500037.33168757)
 
     >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
     >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (0, 152100000000, 1000), (29290, 0, 32))
@@ -244,7 +244,7 @@ def minimal_distance(bodies: [Body]) -> float:
     >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
     >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
     >>> minimal_distance([sun, earth, moon, jupiter, saturn, neptune])
-    405500037.76202041
+    np.float64(405500037.7620204)
     
     >>> sun = Body.from_tuple_parameters('Sun', 1989000000000000000000000000000, 100, (0, 0, 0), (0, 0, 0))
     >>> earth = Body.from_tuple_parameters('earth', 5972000000000000000000000, 100, (107550941418, 107550941418, 100000), (29290, 0, 32))
@@ -252,7 +252,7 @@ def minimal_distance(bodies: [Body]) -> float:
     >>> saturn = Body.from_tuple_parameters('saturn', 568000000000000000000000000, 100, (0, 1352550000000, 0), (0, 10180, 0))
     >>> neptune = Body.from_tuple_parameters('neptune', 102413000000000000000000000, 100, (0, -4444450000000, 500000), (-5370, 0, 0))
     >>> minimal_distance([sun, earth, jupiter, saturn, neptune])
-    152099999999.3627
+    np.float64(152099999999.3627)
 
     >>> from nbp.helpers.numpy import tuple_to_numpy
     >>> import numpy as np
