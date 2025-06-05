@@ -1,6 +1,11 @@
 # N-Body Physics Simulator (and Visualisator)
 [![codecov](https://codecov.io/gh/N-BodyPhysicsSimulator/main/branch/master/graph/badge.svg)](https://codecov.io/gh/N-BodyPhysicsSimulator/main)
 [![Build Status](https://travis-ci.org/N-BodyPhysicsSimulator/Main.svg?branch=master)](https://travis-ci.org/N-BodyPhysicsSimulator/Main)
+
+A simple Python program for simulating an N-body system. The simulator
+can read initial states from JSON or CSV files and stream results to
+outputs such as CSV files or a WebSocket server. A small command line
+interface is provided for running experiments.
 ## Installation by `pip`
 
 `python3 -mpip install git+git://github.com/N-BodyPhysicsSimulator/Main.git`
@@ -8,6 +13,11 @@
 ## To run
 
 `python3 -m nbp`
+### Features
+- Modular input and output system
+- Supports JSON and CSV input
+- Multiple output writers including CSV, JSON and WebSocket
+- Optional modifiers for calculations
 
 ## How to contribute
 
