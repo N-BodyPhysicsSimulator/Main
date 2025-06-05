@@ -18,13 +18,13 @@ class Body(object):
         
         >>> planet1 = Body.from_tuple_parameters("Planet1", 100.0, 20.0, (1.0, 2.0, 3.0), (4.0, 5.0, 6.0))
         >>> planet1.position
-        array([[ 1.],
-               [ 2.],
-               [ 3.]])
+        array([[1.],
+               [2.],
+               [3.]])
         >>> planet1.velocity
-        array([[ 4.],
-               [ 5.],
-               [ 6.]])
+        array([[4.],
+               [5.],
+               [6.]])
         >>> planet1.name
         'Planet1'
         >>> planet1.mass
@@ -42,11 +42,11 @@ class Body(object):
         >>> planet1.position == planet2.position
         array([[ True],
                [ True],
-               [ True]], dtype=bool)
+               [ True]])
         >>> planet1.velocity == planet2.velocity
         array([[ True],
                [ True],
-               [ True]], dtype=bool)
+               [ True]])
         """
         return Body(
             name,

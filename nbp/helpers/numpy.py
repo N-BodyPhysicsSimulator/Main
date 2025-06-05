@@ -4,13 +4,13 @@ import numpy
 def tuple_to_numpy(t: tuple) -> numpy.ndarray:
     """
     >>> tuple_to_numpy((1, 2, 3))
-    array([[ 1.],
-           [ 2.],
-           [ 3.]])
+    array([[1.],
+           [2.],
+           [3.]])
     >>> tuple_to_numpy((123.123, 234.234, 345.345))
-    array([[ 123.123],
-           [ 234.234],
-           [ 345.345]])
+    array([[123.123],
+           [234.234],
+           [345.345]])
     """
     return numpy.array([[t[0]],
                         [t[1]],
@@ -43,19 +43,19 @@ def dict_to_numpy(dictionary: dict) -> numpy.ndarray:
     """
     >>> a = dict_to_numpy({'x': 1.0, 'y': 2.0, 'z': 3.0})
     >>> a
-    array([[ 1.],
-           [ 2.],
-           [ 3.]])
+    array([[1.],
+           [2.],
+           [3.]])
     >>> numpy_to_dict(a) == {'x': 1.0, 'y': 2.0, 'z': 3.0}
     True
     >>> dict_to_numpy({'x': 1.5, 'y': 2.5, 'z': 3.5})
-    array([[ 1.5],
-           [ 2.5],
-           [ 3.5]])
+    array([[1.5],
+           [2.5],
+           [3.5]])
     >>> dict_to_numpy({'x': -100, 'y': 212, 'z': 31234})
-    array([[  -100.],
-           [   212.],
-           [ 31234.]])
+    array([[ -100.],
+           [  212.],
+           [31234.]])
     """
     return tuple_to_numpy((
         dictionary['x'],
