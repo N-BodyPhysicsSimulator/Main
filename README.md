@@ -69,7 +69,7 @@ You could run `python3 -m nbp --inputprovider json -o ws -dt 10`
 nbp: error: the following arguments are required: --input-file, --ws-port
 ```
 
-The `json` Input Provider requires parameter `--input-file` with a path to the JSON file and the `ws` Output Writer requires `--ws-port` with a port for the WebSocket server to 1listen on.
+The `json` Input Provider requires parameter `--input-file` with a path to the JSON file and the `ws` Output Writer requires `--ws-port` with a port for the WebSocket server to listen on.
 
 Let's run `python3 -m nbp --inputprovider json -o ws -dt 10 --input-file /home/<user>/input.json --ws-port 8080`
 
