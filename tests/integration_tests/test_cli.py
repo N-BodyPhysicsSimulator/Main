@@ -6,7 +6,7 @@ import pytest
 from nbp import Cli
 
 def test_required_arguments(capsys):
-    argv = "python3.5 nbp_cli.py".split(" ")
+    argv = "python3 nbp_cli.py".split(" ")
 
     with pytest.raises(SystemExit):
         Cli(argv).start_application()
@@ -18,7 +18,7 @@ def test_required_arguments(capsys):
     assert "--outputwriter/-o" in err
 
 def test_forbid_max_ticks_with_max_time(capsys):
-    argv = "python3.5 nbp_cli.py -i json -o json -dt 1 --max-ticks 1 --max-time 1".split(" ")
+    argv = "python3 nbp_cli.py -i json -o json -dt 1 --max-ticks 1 --max-time 1".split(" ")
 
     with pytest.raises(SystemExit):
         Cli(argv).start_application()
