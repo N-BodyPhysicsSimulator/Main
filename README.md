@@ -32,7 +32,7 @@ interface is provided for running experiments.
 
 ## How to run from source
 
-For running the simulator, Python `3.5.x` or higher is required.
+For running the simulator, Python `3.8` or higher is required.
 
 Not tested on `Mac OS X`/`macOS` or `Microsoft Windows`.
 
