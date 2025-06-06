@@ -30,8 +30,11 @@ Not tested on `Mac OS X`/`macOS` or `Microsoft Windows`.
 
 #### Installation from source
 
-1. Run `make install-requirements-app`
-2. Run tests and make sure there aren't any failing tests.
+1. Run `make install-requirements-app` to install the package and its
+   dependencies.
+2. (Optional) run `make install-requirements-dev` for development
+   requirements.
+3. Run tests and make sure there aren't any failing tests.
 
 #### Run tests
 

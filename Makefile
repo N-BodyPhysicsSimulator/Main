@@ -22,7 +22,7 @@ codecov:
 install-requirements: install-requirements-app install-requirements-dev
 
 install-requirements-app:
-	pip install -r requirements.txt
+        python3 -m pip install .
 
 install-requirements-dev:
 	pip install -r requirements-dev.txt
