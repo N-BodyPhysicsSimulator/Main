@@ -332,8 +332,6 @@ def get_delta_time(bodies: [Body], settings: tuple) -> float:
     radius_settings = sorted(radius_settings)
 
     min_distance = minimal_distance(bodies)
-    
-    new_delta_time = min(time_settings)
 
     if min_distance > max(radius_settings):
         return max(time_settings)
